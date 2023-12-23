@@ -458,7 +458,7 @@ top::ProofCommand ::= id::QName all::Boolean
 {
   top.pp = text("unfold ") ++ id.pp ++ text(if all then "(all)."
                                             else ".") ++ line();
-  top.abella_pp = "unfold " ++ id.abella_pp ++ if all then "(all).  "
+  top.abella_pp = "unfold " ++ id.abella_pp ++ if all then " (all).  "
                                                       else ".  ";
 
   top.toAbella = [unfoldIdentifierTactic(id.fullRel.name, all)];

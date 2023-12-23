@@ -52,7 +52,8 @@ IOVal<Integer> ::= parsers::AllParsers ioin::IOToken
 
   --build and write the file, now that everything has checked out
   local createComposedFile::IOVal<Integer> =
-      build_composed_file(config.composeFilename, defFileContents.iovalue,
+      build_composed_file(
+         config.composeFilename, parsedDefFile.parseTree.ast,
          checkMods.fromRight, outerface.iovalue.fromRight.1,
          defEnvs.2, defEnvs.3, defEnvs.1,
          outerface.iovalue.fromRight.2, config, parsers, allThms,
@@ -199,7 +200,7 @@ Either<String [(QName, DecCmds)]> ::= expectedMods::[QName]
 
 --make the string for the composed file and write it out to the file
 function build_composed_file
-IOVal<Integer> ::= outFilename::String defFileContents::String
+IOVal<Integer> ::= outFilename::String defFile::ListOfCommands
                    mods::[(QName, DecCmds)] proofDefs::[DefElement]
                    defRelEnv::Env<RelationEnvItem>
                    defConstrEnv::Env<ConstructorEnvItem>
@@ -220,7 +221,7 @@ IOVal<Integer> ::= outFilename::String defFileContents::String
       "/********************************************************************\n" ++
       " Language Definition\n" ++
       " ********************************************************************/\n" ++
-      defFileContents ++ "\n\n\n";
+      defFile.simple_pp ++ "\n\n\n";
 
   --things we'll need for proof processing
   local proofDefItems::([TypeEnvItem], [RelationEnvItem],
@@ -234,26 +235,32 @@ IOVal<Integer> ::= outFilename::String defFileContents::String
          []);
 
   --proof definitions
+  local encodedProofDefs::[AnyCommand] = flatMap((.encode), proofDefs);
+  local encodedExtIndDefs::[TopCommand] =
+      flatMap(buildExtIndDefs(_, proverState), thms);
   local proofDefsString::String =
       if null(proofDefs) then ""
       else "/********************************************************************\n" ++
            " Proof-Level Definitions\n" ++
            " ********************************************************************/\n" ++
-           implode("\n", map((.abella_pp), flatMap((.encode), proofDefs)) ++
-                         flatMap(buildExtIndDefs(_, proverState), thms)) ++ "\n\n\n";
+           implode("\n", map((.simple_pp), encodedProofDefs) ++
+                         map((.simple_pp), encodedExtIndDefs)) ++ "\n\n\n";
 
   --properties and proofs
   local abella::IOVal<Either<String ProcessHandle>> =
       startAbella(stdLib.io, config);
   local sendAbellaDefs::IOVal<String> =
-      sendBlockToAbella(langDefString ++ proofDefsString,
+      sendBlockToAbella(defFile.abella_pp ++
+         implode("\n", map((.abella_pp), encodedProofDefs) ++
+                       map((.abella_pp), encodedExtIndDefs)),
          abella.iovalue.fromRight, abella.io, config);
+
   local propertyString::String =
       "/********************************************************************\n" ++
       " Properties and Proofs\n" ++
       " ********************************************************************/\n";
 
-  --put it all together to print before building proofs
+  --put it all together to write before building proofs
   local fullString::String =
       stdLibString ++ langDefString ++ proofDefsString ++ propertyString;
   local output::IOToken =
@@ -271,7 +278,7 @@ IOVal<Integer> ::= outFilename::String defFileContents::String
 
 --defs for R_{ES} and R_T for everything needing them
 function buildExtIndDefs
-[String] ::= thm::ThmElement proverState::ProverState
+[TopCommand] ::= thm::ThmElement proverState::ProverState
 {
   thm.relEnv = proverState.knownRels;
   thm.constrEnv = proverState.knownConstrs;

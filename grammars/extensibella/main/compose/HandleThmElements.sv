@@ -32,17 +32,13 @@ inherited attribute configuration::Configuration occurs on ThmElement;
 synthesized attribute runAbella_out::IOToken occurs on ThmElement;
 
 --build the definitions for R_ES and R_T
-synthesized attribute extIndDefs::[String] occurs on ThmElement;
+synthesized attribute extIndDefs::[TopCommand] occurs on ThmElement;
 
 
 aspect default production
 top::ThmElement ::=
 {
   top.extIndDefs = [];
-
-  top.runAbella_out =
-      sendBlockToAbella(top.composedCmds, top.liveAbella,
-                        top.runAbella, top.configuration).io;
 }
 
 aspect production extensibleMutualTheoremGroup
@@ -306,7 +302,7 @@ top::ThmElement ::= name::QName binds::Bindings body::ExtBody
       case head(tcMods).2 of
       | addRunCommands(c, _) ->
         --set-up for translation constraint, including declaration
-        implode("", map((.abella_pp), c.toAbella))
+        implode("", map((.simple_pp), c.toAbella))
       | _ -> error("Must be translationConstraint first")
       end;
   --rest of list provides the rest of the proof
@@ -318,6 +314,19 @@ top::ThmElement ::= name::QName binds::Bindings body::ExtBody
   --took these proofs, so drop them
   top.outgoingMods = dropAllOccurrences(top.incomingMods, [name]);
 
+  local toAbella::String =
+      case head(tcMods).2 of
+      | addRunCommands(c, _) ->
+        --set-up for translation constraint, including declaration
+        implode("", map((.abella_pp), c.toAbella))
+      | _ -> error("Must be translationConstraint first")
+      end ++ " " ++
+      implode("", map(\ p::(QName, DecCmds) -> getProof(p.2).2,
+                      tail(tcMods)));
+  top.runAbella_out =
+      sendBlockToAbella(toAbella, top.liveAbella,
+                        top.runAbella, top.configuration).io;
+
   top.newThms =
       [(name, bindingMetaterm(forallBinder(), binds, body.thm))];
 }
@@ -327,16 +336,26 @@ aspect production nonextensibleTheorem
 top::ThmElement ::= name::QName params::[String] stmt::Metaterm
 {
   local declaration::String =
-      "Theorem " ++ name.abella_pp ++
+      "Theorem " ++ name.simple_pp ++
       (if null(params) then ""
                        else "[" ++ implode(", ", params) ++ "]") ++
-      " : " ++ stmt.abella_pp ++ ".\n";
+      " : " ++ stmt.simple_pp ++ ".\n";
 
   local updatePair::([(QName, DecCmds)], String) =
       updateMod(top.incomingMods, name.moduleName, getProof);
 
   top.outgoingMods = updatePair.1;
   top.composedCmds = declaration ++ updatePair.2 ++ "\n\n";
+
+  local declarationToAbella::String =
+      "Theorem " ++ name.abella_pp ++
+      (if null(params) then ""
+                       else "[" ++ implode(", ", params) ++ "]") ++
+      " : " ++ stmt.abella_pp ++ ".\n" ++
+      updatePair.2 ++ "\n\n";
+  top.runAbella_out =
+      sendBlockToAbella(declarationToAbella, top.liveAbella,
+                        top.runAbella, top.configuration).io;
 
   top.newThms = [(name, stmt)];
 }
@@ -346,11 +365,18 @@ aspect production splitElement
 top::ThmElement ::= toSplit::QName newNames::[QName]
 {
   top.composedCmds =
-      "Split " ++ toSplit.abella_pp ++ " as " ++
-      implode(", ", map((.abella_pp), newNames)) ++ ".\n\n";
+      "Split " ++ toSplit.simple_pp ++ " as " ++
+      implode(", ", map((.simple_pp), newNames)) ++ ".\n\n";
   top.outgoingMods =
       updateMod(top.incomingMods, head(newNames).moduleName,
                 \ c::DecCmds -> (dropFirstTopCommand(c), "")).1;
+
+  local abellaCmds::String =
+      "Split " ++ toSplit.abella_pp ++ " as " ++
+      implode(", ", map((.abella_pp), newNames)) ++ ".\n\n";
+  top.runAbella_out =
+      sendBlockToAbella(abellaCmds, top.liveAbella,
+                        top.runAbella, top.configuration).io;
 
   top.newThms =
       zip(newNames,
@@ -367,10 +393,10 @@ top::ThmElement ::=
   {-
     Definitions of R_{ES} and R_T relations
   -}
-  local extSizeDef::String =
-      buildExtSize(map(fst, rels), top.relEnv).abella_pp;
-  local transRelDef::String =
-      buildTransRel(rels, top.relEnv).abella_pp;
+  local extSizeDef::TopCommand =
+      buildExtSize(map(fst, rels), top.relEnv);
+  local transRelDef::TopCommand =
+      buildTransRel(rels, top.relEnv);
   top.extIndDefs = [extSizeDef, transRelDef];
 
 
@@ -984,6 +1010,10 @@ top::ThmElement ::=
 
   top.outgoingMods =
       dropExtInd(top.incomingMods, map(fst, rels));
+
+  top.runAbella_out =
+      sendBlockToAbella(top.composedCmds, top.liveAbella,
+                        top.runAbella, top.configuration).io;
 
   --these are the only relevant new things
   top.newThms = flatMap(\ l -> l, lemmaStatements);

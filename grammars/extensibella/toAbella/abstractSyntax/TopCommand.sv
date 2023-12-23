@@ -162,7 +162,7 @@ top::TopCommand ::= preds::[(QName, Type)] defs::Defs
              map(\ p::(QName, Type) ->
                    p.1.abella_pp ++ " : " ++ p.2.abella_pp, preds));
   top.abella_pp = "CoDefine " ++ predsString_abella ++ " by " ++
-                  defs.abella_pp ++ ".";
+                  defs.abella_pp ++ ".\n";
 
   production fullNames::[(QName, Type)] =
       map(\ p::(QName, Type) ->

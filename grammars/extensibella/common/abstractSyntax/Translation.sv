@@ -11,6 +11,10 @@ grammar extensibella:common:abstractSyntax;
 global name_sep::String = "-$-";
 
 
+--module for standard library
+global extensibellaStdLib::QName = toQName("extensibella:stdLib");
+
+
 {-
   When we're translating things, we're going to end up needing the
   names of some constants that will be defined in Abella.  We will
