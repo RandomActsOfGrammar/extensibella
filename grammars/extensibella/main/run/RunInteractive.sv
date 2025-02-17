@@ -114,7 +114,7 @@ function read_one_command
         else anyParseFailure(result.parseErrors);
   return if isSpace(input)
          then read_one_command(parsers)
-         else (any_a, any_a.isQuit);
+         else (^any_a, any_a.isQuit);
 }
 
 

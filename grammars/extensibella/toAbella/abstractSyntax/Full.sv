@@ -60,7 +60,7 @@ top::ExtThms ::= name::QName bindings::Bindings body::ExtBody
                  ons::InductionOns rest::ExtThms
 {
   top.full =
-      addExtThms(fullName, bindings, body.full, ons, rest.full);
+      addExtThms(^fullName, ^bindings, body.full, ^ons, rest.full);
 }
 
 
@@ -100,8 +100,8 @@ aspect production relationMetaterm
 top::Metaterm ::= rel::QName args::TermList r::Restriction
 {
   top.full =
-      relationMetaterm(if rel.relFound then rel.fullRel.name else rel,
-                       args.full, r);
+      relationMetaterm(if rel.relFound then rel.fullRel.name else ^rel,
+                       args.full, ^r);
 }
 
 
@@ -109,8 +109,8 @@ aspect production extSizeMetaterm
 top::Metaterm ::= rel::QName args::TermList r::Restriction
 {
   top.full =
-      extSizeMetaterm(if rel.relFound then rel.fullRel.name else rel,
-                      args.full, r);
+      extSizeMetaterm(if rel.relFound then rel.fullRel.name else ^rel,
+                      args.full, ^r);
 }
 
 
@@ -118,22 +118,22 @@ aspect production projRelMetaterm
 top::Metaterm ::= rel::QName args::TermList r::Restriction
 {
   top.full =
-      projRelMetaterm(if rel.relFound then rel.fullRel.name else rel,
-                      args.full, r);
+      projRelMetaterm(if rel.relFound then rel.fullRel.name else ^rel,
+                      args.full, ^r);
 }
 
 
 aspect production trueMetaterm
 top::Metaterm ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production falseMetaterm
 top::Metaterm ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -168,7 +168,7 @@ top::Metaterm ::= t1::Metaterm t2::Metaterm
 aspect production bindingMetaterm
 top::Metaterm ::= b::Binder bindings::Bindings body::Metaterm
 {
-  top.full = bindingMetaterm(b, bindings.full, body.full);
+  top.full = bindingMetaterm(^b, bindings.full, body.full);
 }
 
 
@@ -253,7 +253,7 @@ top::Metaterm ::= t1::Term t2::Term
 aspect production appendMetaterm
 top::Metaterm ::= t1::Term t2::Term result::Term r::Restriction
 {
-  top.full = appendMetaterm(t1.full, t2.full, result.full, r);
+  top.full = appendMetaterm(t1.full, t2.full, result.full, ^r);
 }
 
 
@@ -378,7 +378,7 @@ top::Term ::= name::QName mty::MaybeType
   top.full =
       if (!name.isQualified && contains(name.shortName, top.boundNames)) ||
          !name.constrFound
-      then nameTerm(name, mty.full)
+      then nameTerm(^name, mty.full)
       else case name.fullConstr of
            | left(x) -> nameTerm(x.name, mty.full)
            | right(x) -> nameTerm(x.name, mty.full)
@@ -396,14 +396,14 @@ top::Term ::= t1::Term t2::Term
 aspect production nilTerm
 top::Term ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production underscoreTerm
 top::Term ::= mty::MaybeType
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -424,35 +424,35 @@ top::Term ::= ty::QName
 aspect production intTerm
 top::Term ::= i::Integer
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production stringTerm
 top::Term ::= contents::String
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production trueTerm
 top::Term ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production falseTerm
 top::Term ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production charTerm
 top::Term ::= c::String
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -572,14 +572,14 @@ top::Type ::= functorTy::Type argTy::Type
 aspect production varType
 top::Type ::= name::String
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production errorType
 top::Type ::=
 {
-  top.full = top; --not sure this should be accessed
+  top.full = ^top; --not sure this should be accessed
 }
 
 
@@ -629,21 +629,21 @@ occurs on ProofCommand;
 aspect production inductionTactic
 top::ProofCommand ::= h::HHint nl::[Integer]
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production coinductionTactic
 top::ProofCommand ::= h::HHint
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production introsTactic
 top::ProofCommand ::= names::[String]
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -651,7 +651,7 @@ aspect production applyTactic
 top::ProofCommand ::= h::HHint depth::Maybe<Integer> theorem::Clearable
                       args::ApplyArgs withs::Withs
 {
-  top.full = applyTactic(h, depth, theorem.full, args.full, withs.full);
+  top.full = applyTactic(^h, depth, theorem.full, args.full, withs.full);
 }
 
 
@@ -666,14 +666,14 @@ top::ProofCommand ::= depth::Maybe<Integer> theorem::Clearable
 aspect production caseTactic
 top::ProofCommand ::= h::HHint hyp::String keep::Boolean
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production assertTactic
 top::ProofCommand ::= h::HHint depth::Maybe<Integer> m::Metaterm
 {
-  top.full = assertTactic(h, depth, m.full);
+  top.full = assertTactic(^h, depth, m.full);
 }
 
 
@@ -694,14 +694,14 @@ top::ProofCommand ::= ew::EWitnesses
 aspect production searchTactic
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production searchDepthTactic
 top::ProofCommand ::= n::Integer
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -715,105 +715,105 @@ top::ProofCommand ::= sw::SearchWitness
 aspect production asyncTactic
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production splitTactic
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production splitStarTactic
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production leftTactic
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production rightTactic
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production skipTactic
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production admitTactic
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production abortCommand
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production undoCommand
 top::ProofCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production clearCommand
 top::ProofCommand ::= removes::[String] hasArrow::Boolean
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production renameTactic
 top::ProofCommand ::= original::String renamed::String
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production abbrevCommand
 top::ProofCommand ::= hyps::[String] newText::String
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production unabbrevCommand
 top::ProofCommand ::= hyps::[String]
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production permuteTactic
 top::ProofCommand ::= names::[String] hyp::Maybe<String>
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production unfoldStepsTactic
 top::ProofCommand ::= steps::Integer all::Boolean
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -827,14 +827,14 @@ top::ProofCommand ::= id::QName all::Boolean
 aspect production unfoldTactic
 top::ProofCommand ::= all::Boolean
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production computeTactic
 top::ProofCommand ::= hyp::String
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -848,7 +848,7 @@ top::Clearable ::= star::Boolean hyp::QName instantiation::TypeList
   top.full =
       clearable(star,
                 if hyp.isQualified || hypFound || null(possibleThms)
-                then hyp
+                then ^hyp
                 else head(possibleThms).1, instantiation.full);
 }
 
@@ -860,7 +860,7 @@ occurs on ApplyArgs;
 aspect production endApplyArgs
 top::ApplyArgs ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -896,7 +896,7 @@ occurs on Withs;
 aspect production endWiths
 top::Withs ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -950,14 +950,14 @@ occurs on SearchWitness;
 aspect production trueSearchWitness
 top::SearchWitness ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production applySearchWitness
 top::SearchWitness ::= name::String
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -1021,14 +1021,14 @@ top::SearchWitness ::= name::String n::Integer swl::[SearchWitness]
 aspect production starSearchWitness
 top::SearchWitness ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production eqSearchWitness
 top::SearchWitness ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -1042,7 +1042,7 @@ occurs on NoOpCommand;
 aspect production setCommand
 top::NoOpCommand ::= opt::String val::String
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -1056,28 +1056,28 @@ top::NoOpCommand ::= theoremName::QName
 aspect production quitCommand
 top::NoOpCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production backCommand
 top::NoOpCommand ::= n::Integer
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production resetCommand
 top::NoOpCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production showCurrentCommand
 top::NoOpCommand ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
@@ -1100,21 +1100,21 @@ top::ProofState ::= subgoalNum::SubgoalNum currGoal::CurrentGoal
 aspect production noProof
 top::ProofState ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production proofCompleted
 top::ProofState ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 
 aspect production proofAborted
 top::ProofState ::=
 {
-  top.full = top;
+  top.full = ^top;
 }
 
 

@@ -59,11 +59,11 @@ top::TopCommand ::= name::QName params::[String] body::Metaterm
 
   production fullName::QName =
       if name.isQualified
-      then name
+      then ^name
       else addQNameBase(top.currentModule, name.shortName);
   top.toAbella =
       [anyTopCommand(
-          theoremDeclaration(fullName, params, body.toAbella))];
+          theoremDeclaration(^fullName, params, body.toAbella))];
 
   body.typeEnv = addEnv(top.typeEnv, map(typeVarEnvItem, params));
 
@@ -80,12 +80,12 @@ top::TopCommand ::= name::QName params::[String] body::Metaterm
       else [];
   --check there are no existing theorems with this full name
   top.toAbellaMsgs <-
-      if null(findTheorem(fullName, top.proverState))
+      if null(findTheorem(^fullName, top.proverState))
       then []
       else [errorMsg("Theorem named " ++ justShow(fullName.pp) ++
                      " already exists")];
 
-  top.provingTheorems = [(fullName, body)];
+  top.provingTheorems = [(^fullName, ^body)];
 }
 
 
@@ -238,7 +238,7 @@ top::TopCommand ::= theoremName::QName newTheoremNames::[QName]
       [anyTopCommand(splitTheorem(head(thm).1, expandedNames))];
   --
   production thm::[(QName, Metaterm)] =
-     findTheorem(theoremName, top.proverState);
+     findTheorem(^theoremName, top.proverState);
   production splitThm::[Metaterm] = splitMetaterm(head(thm).2);
   --Need to add module to given names and make up names for rest
   local qedNewNames::[QName] =
@@ -285,7 +285,7 @@ top::TopCommand ::= names::[QName] k::Kind
   top.abella_pp = "Kind" ++ namesString_abella ++ "   " ++
                   k.abella_pp ++ ".\n";
 
-  top.toAbella = [anyTopCommand(kindDeclaration(newNames, k))];
+  top.toAbella = [anyTopCommand(kindDeclaration(newNames, ^k))];
   production newNames::[QName] =
       map(\ q::QName ->
             if q.isQualified

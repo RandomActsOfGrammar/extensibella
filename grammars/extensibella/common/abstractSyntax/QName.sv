@@ -64,7 +64,7 @@ top::SubQName ::= name::String
 
   --lookup name as a nonterminal
   production attribute possibleTys::[TypeEnvItem] =
-     lookupEnv(basicQName(top), top.typeEnv);
+     lookupEnv(basicQName(^top), top.typeEnv);
   top.typeErrors =
       case possibleTys of
       | [] -> [errorMsg("Unknown type " ++ name)]
@@ -84,7 +84,7 @@ top::SubQName ::= name::String
 
   --lookup name as a relation
   production attribute possibleRels::[RelationEnvItem] =
-     lookupEnv(basicQName(top), top.relationEnv);
+     lookupEnv(basicQName(^top), top.relationEnv);
   top.relErrors =
       case possibleRels of
       | [] -> [errorMsg("Unknown relation " ++ name)]
@@ -114,7 +114,7 @@ top::SubQName ::= name::String
               | unknownKQName(_) -> false
               | _ -> true
               end,
-        lookupEnv(basicQName(top), top.constructorEnv));
+        lookupEnv(basicQName(^top), top.constructorEnv));
   top.constrErrors =
       case possibleConstrs, possibleRels of
       | [], [] -> [errorMsg("Unknown constant " ++ name)]
@@ -160,7 +160,7 @@ top::SubQName ::= name::String rest::SubQName
 
   --lookup name as a nonterminal
   production attribute possibleTys::[TypeEnvItem] =
-     lookupEnv(basicQName(top), top.typeEnv);
+     lookupEnv(basicQName(^top), top.typeEnv);
   top.typeErrors =
       case possibleTys of
       | [] -> [errorMsg("Unknown type " ++ showed)]
@@ -180,7 +180,7 @@ top::SubQName ::= name::String rest::SubQName
 
   --lookup name as a relation
   production attribute possibleRels::[RelationEnvItem] =
-     lookupEnv(basicQName(top), top.relationEnv);
+     lookupEnv(basicQName(^top), top.relationEnv);
   top.relErrors =
       case possibleRels of
       | [] -> [errorMsg("Unknown relation " ++ showed)]
@@ -210,7 +210,7 @@ top::SubQName ::= name::String rest::SubQName
               | unknownKQName(_) -> false
               | _ -> true
               end,
-        lookupEnv(basicQName(top), top.constructorEnv));
+        lookupEnv(basicQName(^top), top.constructorEnv));
   top.constrErrors =
       case possibleConstrs, possibleRels of
       | [], [] -> [errorMsg("Unknown constant " ++ showed)]
@@ -268,7 +268,7 @@ top::QName ::= rest::SubQName
   top.relFound = rest.relFound;
   top.fullRel = rest.fullRel;
 
-  top.sub = rest;
+  top.sub = ^rest;
 
   rest.compareTo = decorate top.compareTo.sub with {};
   top.isEqual = rest.isEqual;
@@ -301,7 +301,7 @@ top::QName ::= pc::Integer rest::SubQName
   top.relFound = rest.relFound;
   top.fullRel = rest.fullRel;
 
-  top.sub = rest;
+  top.sub = ^rest;
 
   rest.compareTo = decorate top.compareTo.sub with {};
   top.isEqual = rest.isEqual;
@@ -334,7 +334,7 @@ top::QName ::= rest::SubQName
   top.relFound = rest.relFound;
   top.fullRel = rest.fullRel;
 
-  top.sub = rest;
+  top.sub = ^rest;
 
   rest.compareTo = decorate top.compareTo.sub with {};
   top.isEqual = rest.isEqual;
@@ -367,7 +367,7 @@ top::QName ::= rest::SubQName
   top.relFound = rest.relFound;
   top.fullRel = rest.fullRel;
 
-  top.sub = rest;
+  top.sub = ^rest;
 
   rest.compareTo = decorate top.compareTo.sub with {};
   top.isEqual = rest.isEqual;
@@ -471,7 +471,7 @@ top::QName ::= rest::SubQName
   top.relFound = rest.relFound;
   top.fullRel = rest.fullRel;
 
-  top.sub = rest;
+  top.sub = ^rest;
 
   rest.compareTo = decorate top.compareTo.sub with {};
   top.isEqual = rest.isEqual;
@@ -504,7 +504,7 @@ top::QName ::= rest::SubQName
   top.relFound = rest.relFound;
   top.fullRel = rest.fullRel;
 
-  top.sub = rest;
+  top.sub = ^rest;
 
   rest.compareTo = decorate top.compareTo.sub with {};
   top.isEqual = rest.isEqual;
@@ -537,7 +537,7 @@ top::QName ::= rest::SubQName
   top.relFound = rest.relFound;
   top.fullRel = rest.fullRel;
 
-  top.sub = rest;
+  top.sub = ^rest;
 
   rest.compareTo = decorate top.compareTo.sub with {};
   top.isEqual = rest.isEqual;
@@ -551,7 +551,7 @@ top::QName ::= rest::QName
 {
   top.abella_pp = "$stand-in_rule__" ++ rest.abella_pp;
   top.isStandInRuleQName = true;
-  forwards to rest;
+  forwards to @rest;
 }
 synthesized attribute isStandInRuleQName::Boolean occurs on QName;
 aspect default production
@@ -587,7 +587,7 @@ top::QName ::= rest::SubQName
   top.relFound = rest.relFound;
   top.fullRel = rest.fullRel;
 
-  top.sub = rest;
+  top.sub = ^rest;
 
   rest.compareTo = decorate top.compareTo.sub with {};
   top.isEqual = rest.isEqual;
@@ -612,7 +612,7 @@ Boolean ::= moduleName::QName identifier::QName
   return if !identifier.isQualified
          then error("Identifier must be qualified (" ++
                     justShow(identifier.pp) ++ ")")
-         else addQNameBase(moduleName, identifier.shortName) ==
+         else addQNameBase(^moduleName, identifier.shortName) ==
               basicQName(identifier.sub); --drop any special qualifiers
 }
 

@@ -54,7 +54,7 @@ global propType::Type = nameType(toQName("prop"));
 function listType
 Type ::= ty::Type
 {
-  return functorType(nameType(toQName("list")), ty);
+  return functorType(nameType(toQName("list")), ^ty);
 }
 
 function pairType
@@ -62,7 +62,7 @@ Type ::= a::Type b::Type
 {
   return functorType(
            functorType(nameType(toQName(pairTypeName)),
-                       a), b);
+                       ^a), ^b);
 }
 
 
@@ -101,8 +101,8 @@ QName ::= ty::QName
 {
   --need to add "$proj__" to first module portion
   return case ty of
-         | basicQName(s) -> projQName(s)
-         | tyQName(s) -> projQName(s)
+         | basicQName(s) -> projQName(^s)
+         | tyQName(s) -> projQName(^s)
          | _ -> error("Projecting types cannot have other prefixes")
          end;
 }

@@ -2,6 +2,6 @@
 
 GRAMMAR=extensibella:composed
 
-SVJVM_FLAGS="-Xmx8000M -Xss40M" silver $@ -o extensibella.jar -I grammars/ $GRAMMAR
+SVJVM_FLAGS="-Xmx25600M -Xss40M" silver $@ -o extensibella.jar -I grammars/ $GRAMMAR
 
 

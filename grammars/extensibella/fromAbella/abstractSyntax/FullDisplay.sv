@@ -16,7 +16,7 @@ top::FullDisplay ::= msg::ExtraInformation state::ProofState
 
   top.fromAbella = fullDisplay(msg.fromAbella, state.fromAbella);
 
-  top.proof = state;
+  top.proof = ^state;
   top.isError = msg.isError;
   top.isWarning = msg.isWarning;
   top.proofEnded =

@@ -14,7 +14,7 @@ top::WarningMessage ::= name::QName
   top.pp = text("Definition might not be stratified") ++ realLine() ++
       text("(\"") ++ name.pp ++ text("\" occurs to the left of ->)");
 
-  top.fromAbella = stratificationWarning(name);
+  top.fromAbella = stratificationWarning(^name);
 }
 
 
@@ -25,7 +25,7 @@ top::WarningMessage ::= name::QName
            realLine() ++ text(" (higher-order argument \"") ++
            name.pp ++ text("\" occurs to the left of ->)");
 
-  top.fromAbella = defeatStratification(name);
+  top.fromAbella = defeatStratification(^name);
 }
 
 
@@ -35,7 +35,7 @@ top::WarningMessage ::= name::QName
   top.pp = text("overriding existing lemma named \"") ++ name.pp ++
            text("\"");
 
-  top.fromAbella = overridingLemma(name);
+  top.fromAbella = overridingLemma(^name);
 }
 
 
@@ -120,7 +120,7 @@ top::ProcessingErrorMessage ::= name::QName
   top.pp = text("Predicate or constant ") ++ name.pp ++
            text(" already exists");
 
-  top.fromAbella = alreadyDefined(name);
+  top.fromAbella = alreadyDefined(^name);
 }
 
 
@@ -131,7 +131,7 @@ top::ProcessingErrorMessage ::= name::QName
            text("\".") ++ realLine() ++ text(" Defined predicates") ++
            text(" may not begin with a capital letter.");
 
-  top.fromAbella = invalidCapDefName(name);
+  top.fromAbella = invalidCapDefName(^name);
 }
 
 
@@ -141,7 +141,7 @@ top::ProcessingErrorMessage ::= name::QName
   top.pp = text("Constants may not begin with a capital letter: ") ++
            name.pp;
 
-  top.fromAbella = invalidCapConstName(name);
+  top.fromAbella = invalidCapConstName(^name);
 }
 
 
@@ -323,7 +323,7 @@ top::ProcessingErrorMessage ::= argnum::Integer const1::QName const2::QName
            const1.pp ++ text(" and ") ++ const2.pp ++ text(")");
 
   top.fromAbella =
-      matchingUnificationFailureConstants(argnum, const1, const2);
+      matchingUnificationFailureConstants(argnum, ^const1, ^const2);
 }
 
 
@@ -352,7 +352,7 @@ top::ProcessingErrorMessage ::= name::QName
   top.pp = text("Type constructor ") ++ name.pp ++
            text(" has inconsistent kind declarations");
 
-  top.fromAbella = tyConstrInconsistentKinds(name);
+  top.fromAbella = tyConstrInconsistentKinds(^name);
 }
 
 
@@ -362,7 +362,7 @@ top::ProcessingErrorMessage ::= name::QName
   top.pp = text("Types may not begin with a capital letter: ") ++
            name.pp;
 
-  top.fromAbella = tyNoCaps(name);
+  top.fromAbella = tyNoCaps(^name);
 }
 
 
@@ -382,7 +382,7 @@ top::ProcessingErrorMessage ::= name::QName expected::Integer
   top.pp = name.pp ++ text(" expects " ++ toString(expected) ++
            " arguments but has " ++ toString(given));
 
-  top.fromAbella = wrongArgNumber(name, expected, given);
+  top.fromAbella = wrongArgNumber(^name, expected, given);
 }
 
 
@@ -563,7 +563,7 @@ top::Type ::= functorTy::Type argTy::Type
 aspect production varType
 top::Type ::= name::String
 {
-  top.fromAbella = top;
+  top.fromAbella = ^top;
 }
 
 

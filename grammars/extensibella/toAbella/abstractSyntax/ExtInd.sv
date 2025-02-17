@@ -47,7 +47,7 @@ top::TopCommand ::= body::ExtIndBody thms::ExtThms alsos::ExtThms
   top.toAbella =
        --declare theorem
       [anyTopCommand(theoremDeclaration(toQName(extIndName), [],
-                        fullThm))] ++
+                        ^fullThm))] ++
        --declare inductions
       map(\ l::[Integer] ->
             anyProofCommand(inductionTactic(noHint(), l)),
@@ -354,8 +354,8 @@ top::ExtIndBody ::= boundVars::Bindings rel::QName relArgs::[String]
 
   top.relations = if rel.relFound then [fullRel.name] else [];
 
-  top.extIndInfo = [(if rel.relFound then fullRel.name else rel,
-                     relArgs, boundVars, premises.full, ihNames)];
+  top.extIndInfo = [(if rel.relFound then fullRel.name else ^rel,
+                     relArgs, ^boundVars, premises.full, ihNames)];
 
   top.relationEnvItems = if rel.relFound then [fullRel] else [];
 
@@ -569,7 +569,7 @@ top::ExtIndBody ::= boundVars::Bindings rel::QName relArgs::[String]
       map(\ p::(String, MaybeType) ->
             (p.1,
              case p.2 of
-             | justType(t) -> t
+             | justType(t) -> ^t
              | nothingType() -> varType("__X" ++ toString(genInt()))
              end), boundVars.toList);
   premises.downSubst = emptySubst();
@@ -584,7 +584,7 @@ Metaterm ::= boundVars::Bindings rel::QName relArgs::[String]
       map(\ x::String -> nameTerm(toQName(x), nothingType()), relArgs);
   local n::String = freshName("N", boundVars.usedNames);
   local relPrem::Metaterm =
-      relationMetaterm(rel,
+      relationMetaterm(^rel,
          toTermList(args ++
             if useExtSize
             then [nameTerm(toQName(n), nothingType())]
@@ -607,12 +607,12 @@ Metaterm ::= boundVars::Bindings rel::QName relArgs::[String]
   return
       bindingMetaterm(forallBinder(),
          if useExtSize
-         then addBindings(n, nothingType(), boundVars)
-         else boundVars,
-         foldr(impliesMetaterm, conc,
+         then addBindings(n, nothingType(), ^boundVars)
+         else ^boundVars,
+         foldr(impliesMetaterm, ^conc,
                if useExtSize
-               then extSize::acc::map(snd, premises)
-               else relPrem::map(snd, premises)));
+               then ^extSize::^acc::map(snd, premises)
+               else ^relPrem::map(snd, premises)));
 }
 
 
@@ -652,7 +652,7 @@ top::ExtIndPremiseList ::= name::String m::Metaterm
                   if rest.abella_pp == "" then ""
                   else ", " ++ rest.abella_pp;
 
-  top.toList = (just(name), m)::rest.toList;
+  top.toList = (just(name), ^m)::rest.toList;
   top.len = 1 + rest.len;
 
   m.downSubst = top.downSubst;
@@ -695,7 +695,7 @@ top::ExtIndPremiseList ::= m::Metaterm rest::ExtIndPremiseList
   top.abella_pp = m.abella_pp ++ if rest.abella_pp == "" then ""
                                  else ", " ++ rest.abella_pp;
 
-  top.toList = (nothing(), m)::rest.toList;
+  top.toList = (nothing(), ^m)::rest.toList;
   top.len = 1 + rest.len;
 
   m.downSubst = top.downSubst;
@@ -962,7 +962,7 @@ top::TopCommand ::= rels::[QName] oldThms::[QName] newRels::ExtIndBody
   body.useExtSize = useExtSize;
 
   local body::ExtIndBody =
-      foldr(branchExtIndBody, newRels,
+      foldr(branchExtIndBody, ^newRels,
          map(\ here::(QName, [String], Bindings, ExtIndPremiseList,
                       [String]) ->
                oneExtIndBody(here.3, here.1, here.2, here.4, here.5),
@@ -980,11 +980,11 @@ top::TopCommand ::= rels::[QName] oldThms::[QName] newRels::ExtIndBody
   local thms::ExtThms =
       foldr(\ p::(QName, Bindings, ExtBody, InductionOns) rest::ExtThms ->
               addExtThms(p.1, p.2, p.3, p.4, rest),
-            newThms, importedThms);
+            ^newThms, importedThms);
   local alsos::ExtThms =
       foldr(\ p::(QName, Bindings, ExtBody, InductionOns) rest::ExtThms ->
               addExtThms(p.1, p.2, p.3, p.4, rest),
-            newAlsos, importedAlsos);
+            ^newAlsos, importedAlsos);
 
   local totalRenames::[(String, String, String)] =
       if obligationsFound
@@ -1070,7 +1070,7 @@ top::TopCommand ::= rels::[QName] oldThms::[QName] newRels::ExtIndBody
   top.toAbella =
        --declare theorem
       [anyTopCommand(theoremDeclaration(toQName(extIndName), [],
-                        fullThm))] ++
+                        ^fullThm))] ++
        --declare inductions
       map(\ l::[Integer] ->
             anyProofCommand(inductionTactic(noHint(), l)),
@@ -1129,7 +1129,7 @@ top::TopCommand ::= rels::[(QName, [String])]
              }, p.2), rels);
 
   top.toAbella =
-      anyTopCommand(extSizeDef)::
+      anyTopCommand(^extSizeDef)::
       flatMap(\ p::(QName, Metaterm) ->
                 [anyTopCommand(theoremDeclaration(p.1, [], p.2)),
                  anyProofCommand(skipTactic())],
@@ -1227,7 +1227,7 @@ top::TopCommand ::= oldRels::[QName] newRels::[(QName, [String])]
              }, p.2), newRels);
 
   top.toAbella =
-      anyTopCommand(extSizeDef)::
+      anyTopCommand(^extSizeDef)::
       flatMap(\ p::(QName, Metaterm) ->
                 [anyTopCommand(theoremDeclaration(p.1, [], p.2)),
                  anyProofCommand(skipTactic())],
@@ -1352,7 +1352,7 @@ top::TopCommand ::= rels::[(QName, [String])]
              }, p.2), rels);
 
   top.toAbella =
-      anyTopCommand(projRelDef)::
+      anyTopCommand(^projRelDef)::
       flatMap(\ p::(QName, Metaterm) ->
                 [anyTopCommand(theoremDeclaration(p.1, [], p.2)),
                  anyProofCommand(skipTactic())],
@@ -1483,7 +1483,7 @@ top::TopCommand ::= oldRels::[QName] newRels::[(QName, [String])]
              }, p.2), newRels);
 
   top.toAbella =
-      anyTopCommand(projRelDef)::
+      anyTopCommand(^projRelDef)::
       flatMap(\ p::(QName, Metaterm) ->
                 [anyTopCommand(theoremDeclaration(p.1, [], p.2)),
                  anyProofCommand(skipTactic())],
@@ -1697,11 +1697,11 @@ function buildExtSizeClauses
       case head(defs).2 of
       | just(bindingMetaterm(existsBinder(), binds, body)) ->
         let x::([String], Metaterm) =
-            buildExtSizeDefBody(body, num, isExtRule,
+            buildExtSizeDefBody(^body, num, isExtRule,
                binds.usedNames ++ usedVars, allRels)
         in
         let fullBinds::Bindings =
-            foldr(addBindings(_, nothingType(), _), binds, x.1)
+            foldr(addBindings(_, nothingType(), _), ^binds, x.1)
         in
           (!null(x.1),
            bindingMetaterm(existsBinder(), fullBinds, x.2))
@@ -1726,19 +1726,19 @@ function buildExtSizeClauses
       else if isExtRule
       then integerToIntegerTerm(1) --1 for this step
       else integerToIntegerTerm(0);
-  local newArgs::TermList = toTermList(head(defs).1 ++ [finalNumber]);
+  local newArgs::TermList = toTermList(head(defs).1 ++ [^finalNumber]);
 
   --new def corresponding to first original def
   local hereDef::Def =
       case head(defs).2 of
-      | just(_) -> ruleDef(extSizeRel, newArgs, newBody)
-      | nothing() -> factDef(extSizeRel, newArgs)
+      | just(_) -> ruleDef(@extSizeRel, @newArgs, @newBody)
+      | nothing() -> factDef(@extSizeRel, @newArgs)
       end;
 
   return case defs of
          | [] -> []
          | _::tl ->
-           hereDef::buildExtSizeClauses(rel, tl, pcIndex, allRels,
+           ^hereDef::buildExtSizeClauses(^rel, tl, pcIndex, allRels,
                                         renv, cenv, buildsOns)
          end;
 }
@@ -1759,7 +1759,7 @@ function buildExtSizeDefBody
   local modBody::([String], [Metaterm]) =
       foldr(\ m::Metaterm rest::([String], [Metaterm]) ->
               case m of
-              | relationMetaterm(r, t, _) when contains(r, allRels) ->
+              | relationMetaterm(r, t, _) when contains(^r, allRels) ->
                 let name::String = freshName("N", rest.1 ++ allNames)
                 in
                   (name::rest.1,
@@ -1769,7 +1769,7 @@ function buildExtSizeDefBody
                 end
               | _ -> (rest.1, m::rest.2)
               end,
-            ([], []), splitMetaterm(body));
+            ([], []), splitMetaterm(^body));
 
   --build a term for addition here
   local addTerm::(Metaterm ::= Term Term Term) =
@@ -1818,7 +1818,7 @@ function buildExtSizeDefBody
   --all the new names
   local fullNewNameSet::[String] = modBody.1 ++ allBodyParts.1;
 
-  return (fullNewNameSet, fullBody);
+  return (fullNewNameSet, ^fullBody);
 }
 
 
@@ -1901,7 +1901,7 @@ function buildProjRelDefInfo
                case kClause.2 of
                | nothing() -> ([], nothing())
                | just(bindingMetaterm(existsBinder(), binds, body)) ->
-                 (map(fst, binds.toList), dropFalsePrem(body))
+                 (map(fst, binds.toList), dropFalsePrem(^body))
                | just(m) -> ([], dropFalsePrem(m))
                end
            in
@@ -1942,8 +1942,8 @@ TopCommand ::=
         bind(m, \ m::Metaterm ->
                   case m of
                   | bindingMetaterm(existsBinder(), b, m) ->
-                    just(bindingMetaterm(existsBinder(), b,
-                            replaceRelsProjRels(allRels, m)))
+                    just(bindingMetaterm(existsBinder(), ^b,
+                            replaceRelsProjRels(allRels, ^m)))
                   | _ -> just(replaceRelsProjRels(allRels, m))
                   end);
   local defs::[Def] =
@@ -2014,7 +2014,7 @@ function buildProjRelClauses
       | just(m) ->
         just(decorate head(safeReplace([m], qRuleArgs,
                                        head(defs).1)) with {
-                replaceUnknownK = pc;
+                replaceUnknownK = ^pc;
              }.unknownKReplaced)
       | nothing() -> nothing()
       end;
@@ -2038,9 +2038,9 @@ function buildProjRelClauses
      | mm, _ when !isExtRule -> mm
      | just(bindingMetaterm(existsBinder(), binds, body)), just(m2) ->
        just(bindingMetaterm(existsBinder(),
-               foldr(addBindings(_, nothingType(), _), binds,
+               foldr(addBindings(_, nothingType(), _), ^binds,
                      freshQBindings),
-               andMetaterm(body, m2)))
+               andMetaterm(^body, m2)))
      | just(m1), just(m2) ->
        if null(freshQBindings)
        then just(andMetaterm(m1, m2))
@@ -2058,13 +2058,13 @@ function buildProjRelClauses
 
   local hereDef::Def =
       case modBody of
-      | just(body) -> ruleDef(projRel, toTermList(head(defs).1), body)
-      | nothing() -> factDef(projRel, toTermList(head(defs).1))
+      | just(body) -> ruleDef(@projRel, toTermList(head(defs).1), body)
+      | nothing() -> factDef(@projRel, toTermList(head(defs).1))
       end;
 
   return case defs of
          | [] -> []
-         | _::tl -> hereDef::buildProjRelClauses(rel, tl, qRuleArgs,
+         | _::tl -> ^hereDef::buildProjRelClauses(^rel, tl, qRuleArgs,
                                 qRuleBindings, qRuleBody, pcIndex, allRels,
                                 buildsOns, relEnv, constrEnv)
          end;
@@ -2080,11 +2080,11 @@ Metaterm ::= allRels::[QName] m::Metaterm
   local replaced::[Metaterm] =
       map(\ m::Metaterm ->
             case m of
-            | relationMetaterm(r, t, s) when contains(r, allRels) ->
-              relationMetaterm(projRelQName(r.sub), t, s)
+            | relationMetaterm(r, t, s) when contains(^r, allRels) ->
+              relationMetaterm(projRelQName(r.sub), ^t, ^s)
             | _ -> m
             end,
-          splitMetaterm(m));
+          splitMetaterm(^m));
   return foldr1(andMetaterm, replaced);
 }
 
@@ -2138,48 +2138,48 @@ function buildExtSizeLemmas
          emptyRestriction());
 
   --non-neg:  forall \bar{x} n.  extSize \bar{x} n  ->  0 <= n
-  local nonNegThmName::QName = ext_ind_pos_name(rel);
+  local nonNegThmName::QName = ext_ind_pos_name(^rel);
   local nonNegThmBody::Metaterm =
-      bindingMetaterm(forallBinder(), binds,
-         impliesMetaterm(extSize,
+      bindingMetaterm(forallBinder(), @binds,
+         impliesMetaterm(@extSize,
             relationMetaterm(toQName(integerLessEqName),
                toTermList([integerToIntegerTerm(0),
                            basicNameTerm(numName)]),
                emptyRestriction())));
 
   --is int:  forall \bar{x} n.  extSize \bar{x} n  ->  is_integer n
-  local isIntThmName::QName = ext_ind_is_int_name(rel);
+  local isIntThmName::QName = ext_ind_is_int_name(^rel);
   local isIntThmBody::Metaterm =
-      bindingMetaterm(forallBinder(), binds,
-         impliesMetaterm(extSize,
+      bindingMetaterm(forallBinder(), ^binds,
+         impliesMetaterm(^extSize,
             relationMetaterm(toQName("extensibella:stdLib:is_integer"),
                toTermList([basicNameTerm(numName)]),
                emptyRestriction())));
 
   --drop:  forall \bar{x} n.  extSize \bar{x} n  ->  R \bar{x}
-  local dropExtSizeName::QName = drop_ext_ind_name(rel);
+  local dropExtSizeName::QName = drop_ext_ind_name(^rel);
   local dropExtSizeBody::Metaterm =
-      bindingMetaterm(forallBinder(), binds,
-         impliesMetaterm(extSize,
-            relationMetaterm(rel,
+      bindingMetaterm(forallBinder(), ^binds,
+         impliesMetaterm(^extSize,
+            relationMetaterm(^rel,
                toTermList(map(basicNameTerm, argNames)),
                emptyRestriction())));
 
   --add:  forall \bar{x}.  R \bar{x}  ->  exists n.  extSize \bar{x} n
-  local addExtSizeName::QName = add_ext_ind_name(rel);
+  local addExtSizeName::QName = add_ext_ind_name(^rel);
   local addExtSizeBody::Metaterm =
       bindingMetaterm(forallBinder(), toBindings(argNames),
          impliesMetaterm(
-            relationMetaterm(rel,
+            relationMetaterm(^rel,
                toTermList(map(basicNameTerm, argNames)),
                emptyRestriction()),
             bindingMetaterm(existsBinder(), toBindings([numName]),
-               extSize)));
+               ^extSize)));
 
-  return [(nonNegThmName, nonNegThmBody),
-          (isIntThmName, isIntThmBody),
-          (dropExtSizeName, dropExtSizeBody),
-          (addExtSizeName, addExtSizeBody)];
+return [(^nonNegThmName, ^nonNegThmBody),
+        (^isIntThmName, ^isIntThmBody),
+        (^dropExtSizeName, ^dropExtSizeBody),
+        (^addExtSizeName, ^addExtSizeBody)];
 }
 
 
@@ -2234,15 +2234,15 @@ function buildProjRelLemmas
          emptyRestriction());
 
   --dropP:  forall \bar{x}.  projRel \bar{X}  ->  R \bar{x}
-  local dropPName::QName = dropP_name(rel);
+  local dropPName::QName = dropP_name(^rel);
   local dropPBody::Metaterm =
-      bindingMetaterm(forallBinder(), binds,
-         impliesMetaterm(projRel,
-            relationMetaterm(rel,
+      bindingMetaterm(forallBinder(), ^binds,
+         impliesMetaterm(@projRel,
+            relationMetaterm(^rel,
                toTermList(map(basicNameTerm, argNames)),
                emptyRestriction())));
 
-  return [(dropPName, dropPBody)];
+  return [(^dropPName, ^dropPBody)];
 }
 
 
@@ -2279,7 +2279,7 @@ function buildExtIndLemma
                       prems::ExtIndPremiseList
 {
   local relTm::Metaterm =
-      relationMetaterm(rel,
+      relationMetaterm(@rel,
          toTermList(map(basicNameTerm, argNames)),
           emptyRestriction());
   local projRel::Metaterm =
@@ -2288,13 +2288,13 @@ function buildExtIndLemma
          emptyRestriction());
 
   --addP:  forall \bar{x}.  R \bar{X}  ->  projRel \bar{x}
-  local addPName::QName = addP_name(rel);
+  local addPName::QName = addP_name(^rel);
   local addPBody::Metaterm =
-      bindingMetaterm(forallBinder(), bindings,
-         foldr(impliesMetaterm, projRel,
-               relTm::map(snd, prems.toList)));
+      bindingMetaterm(forallBinder(), @bindings,
+         foldr(impliesMetaterm, ^projRel,
+               ^relTm::map(snd, prems.toList)));
 
-  return (addPName, addPBody);
+  return (^addPName, ^addPBody);
 }
 
 

@@ -12,7 +12,7 @@ top::TopCommand ::= name::QName binds::Bindings body::ExtBody
 
   production fullName::QName =
       if name.isQualified
-      then name
+      then ^name
       else addQNameBase(top.currentModule, name.shortName);
 
   body.boundNames = binds.usedNames;
@@ -32,7 +32,7 @@ top::TopCommand ::= name::QName binds::Bindings body::ExtBody
 
   local projTy::QName =
       case body.premises of
-      | (_, projectionMetaterm(_, ty, _, _))::_ -> ty
+      | (_, projectionMetaterm(_, ty, _, _))::_ -> ^ty
       | _ -> error("Should not access projTy")
       end;
   projTy.typeEnv = top.typeEnv;
@@ -56,7 +56,7 @@ top::TopCommand ::= name::QName binds::Bindings body::ExtBody
                   justShow(name.pp) ++ " must have premises")]
       | (_, projectionMetaterm(_, q, _, _))::_ ->
         let decQ::Decorated QName with {typeEnv} =
-            decorate q with {typeEnv = top.typeEnv;}
+            decorate ^q with {typeEnv = top.typeEnv;}
         in
           if !decQ.typeFound ||
              sameModule(top.currentModule, decQ.fullType.name)
@@ -72,7 +72,7 @@ top::TopCommand ::= name::QName binds::Bindings body::ExtBody
       end;
   --check there are no existing theorems with this full name
   top.toAbellaMsgs <-
-      if null(findTheorem(fullName, top.proverState))
+      if null(findTheorem(^fullName, top.proverState))
       then []
       else [errorMsg("Theorem named " ++ justShow(fullName.pp) ++
                      " already exists")];
@@ -89,20 +89,20 @@ top::TopCommand ::= name::QName binds::Bindings body::ExtBody
       map(\ p::(String, MaybeType) ->
             (p.1,
              case p.2 of
-             | justType(t) -> t
+             | justType(t) -> ^t
              | nothingType() -> varType("__X" ++ toString(genInt()))
              end),
           binds.toList);
   body.downSubst = emptySubst();
 
   top.toAbella =
-      [anyTopCommand(theoremDeclaration(fullName, [],
-          bindingMetaterm(forallBinder(), binds, body.toAbella))),
+      [anyTopCommand(theoremDeclaration(^fullName, [],
+          bindingMetaterm(forallBinder(), ^binds, body.toAbella))),
        anyProofCommand(introsTactic(introsNames)),
        anyProofCommand(caseTactic(nameHint(head(introsNames)),
           head(introsNames), true))];
 
-  top.provingTheorems = [(fullName, body.thm)];
+  top.provingTheorems = [(^fullName, body.thm)];
 
   --no skips at declaration time, so no during commands
   top.duringCommands = [];
@@ -125,7 +125,7 @@ top::TopCommand ::= name::QName
   top.toAbellaMsgs <-
       case top.proverState.remainingObligations of
       | projectionConstraintTheorem(q, x, b, _)::_ ->
-        if name == q
+        if ^name == ^q
         then []
         else [errorMsg("Expected projection constraint obligation" ++
                  " " ++ justShow(q.pp))]
@@ -134,7 +134,7 @@ top::TopCommand ::= name::QName
 
   local obligation::(QName, Bindings, ExtBody) =
       case head(top.proverState.remainingObligations) of
-      | projectionConstraintTheorem(q, x, b, _) -> (q, x, b)
+      | projectionConstraintTheorem(q, x, b, _) -> (^q, ^x, ^b)
       | _ -> error("Not possible (length top.toAbellaMsgs = " ++
                    toString(length(top.toAbellaMsgs)) ++ ")")
       end;
@@ -159,7 +159,7 @@ top::TopCommand ::= name::QName
 
   local projTy::QName =
       case body.premises of
-      | (_, projectionMetaterm(_, ty, _, _))::_ -> ty
+      | (_, projectionMetaterm(_, ty, _, _))::_ -> ^ty
       | _ -> error("Should not access projTy")
       end;
   projTy.typeEnv = top.typeEnv;
@@ -202,7 +202,7 @@ top::TopCommand ::= name::QName
 
   top.toAbella =
       [anyTopCommand(theoremDeclaration(obligation.1, [],
-          bindingMetaterm(forallBinder(), binds, body.toAbella))),
+          bindingMetaterm(forallBinder(), ^binds, body.toAbella))),
        anyProofCommand(introsTactic(introsNames)),
        anyProofCommand(caseTactic(nameHint(head(introsNames)),
           head(introsNames), true))] ++

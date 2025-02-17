@@ -58,7 +58,7 @@ top::ListOfCommands ::= a::AnyCommand rest::ListOfCommands
   top.pp = docGroup(a.pp) ++ rest.pp;
   top.abella_pp = a.abella_pp ++ rest.abella_pp;
 
-  top.commandList = a::rest.commandList;
+  top.commandList = ^a::rest.commandList;
 
   top.tys = a.tys ++ rest.tys;
   top.rels = a.rels ++ rest.rels;
@@ -177,7 +177,7 @@ top::TopCommand ::= preds::[(QName, Type)] defs::Defs
       flatMap(\ p::(QName, Type) ->
                 case p.1 of
                 | projQName(s) ->
-                  [langTypeEnvItem(tyQName(s), 0,
+                  [langTypeEnvItem(tyQName(^s), 0,
                       foldr(addTypeList, emptyTypeList(),
                         --drop `ty -> ty -> prop` from end to get args
                          take(length(p.2.toList) - 3, p.2.toList)),

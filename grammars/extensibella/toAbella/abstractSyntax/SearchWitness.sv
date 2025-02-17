@@ -15,7 +15,7 @@ top::SearchWitness ::=
   top.pp = text("true");
   top.abella_pp = "true";
 
-  top.toAbella = top;
+  top.toAbella = ^top;
 }
 
 
@@ -25,7 +25,7 @@ top::SearchWitness ::= name::String
   top.pp = text("apply " ++ name);
   top.abella_pp = "apply " ++ name;
 
-  top.toAbella = top;
+  top.toAbella = ^top;
 }
 
 
@@ -132,7 +132,7 @@ top::SearchWitness ::=
   top.pp = text("*");
   top.abella_pp = "*";
 
-  top.toAbella = top;
+  top.toAbella = ^top;
 }
 
 
@@ -142,6 +142,6 @@ top::SearchWitness ::=
   top.pp = text("=");
   top.abella_pp = "=";
 
-  top.toAbella = top;
+  top.toAbella = ^top;
 }
 

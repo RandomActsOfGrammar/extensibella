@@ -152,7 +152,7 @@ top::CmdArgs ::= name::String rest::CmdArgs
 
   top.runREPL = false;
 
-  forwards to rest;
+  forwards to @rest;
 }
 
 

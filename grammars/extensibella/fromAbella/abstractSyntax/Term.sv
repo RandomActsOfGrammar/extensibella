@@ -31,12 +31,12 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
         else if relName == integerModulusName
         then modulusMetaterm(a, b, c)
         else if relName == appendName
-        then appendMetaterm(a, b, c, r)
+        then appendMetaterm(a, b, c, ^r)
         else if relName == orName
         then orBoolMetaterm(a, b, c)
         else if relName == andName
         then andBoolMetaterm(a, b, c)
-        else relationMetaterm(rel.relFromAbella, args.fromAbella, r)
+        else relationMetaterm(rel.relFromAbella, args.fromAbella, ^r)
       --special relations/terms with two arguments
       | basicQName(baseName(relName)), [a, b] ->
         if relName == integerNegateName
@@ -51,15 +51,15 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
         then greaterEqMetaterm(a, b)
         else if relName == notName
         then notBoolMetaterm(a, b)
-        else relationMetaterm(rel.relFromAbella, args.fromAbella, r)
+        else relationMetaterm(rel.relFromAbella, args.fromAbella, ^r)
       --extSize and projRel relations
       | extSizeQName(_), _ ->
-        extSizeMetaterm(rel.relFromAbella, args.fromAbella, r)
+        extSizeMetaterm(rel.relFromAbella, args.fromAbella, ^r)
       | projRelQName(_), _ ->
-        projRelMetaterm(rel.relFromAbella, args.fromAbella, r)
+        projRelMetaterm(rel.relFromAbella, args.fromAbella, ^r)
       --nothing special
       | _, _ ->
-        relationMetaterm(rel.relFromAbella, args.fromAbella, r)
+        relationMetaterm(rel.relFromAbella, args.fromAbella, ^r)
       end;
 }
 
@@ -110,7 +110,7 @@ aspect production bindingMetaterm
 top::Metaterm ::= b::Binder nameBindings::Bindings body::Metaterm
 {
   top.fromAbella =
-      bindingMetaterm(b, nameBindings.fromAbella, body.fromAbella);
+      bindingMetaterm(^b, nameBindings.fromAbella, body.fromAbella);
 }
 
 
@@ -183,7 +183,7 @@ top::Term ::= name::QName ty::MaybeType
       | unknownIQName(ty) -> unknownITerm(name.tyFromAbella)
       | unknownKQName(rel) -> unknownKTerm(name.relFromAbella)
       --Other
-      | _ -> nameTerm(name.constrFromAbella, ty)
+      | _ -> nameTerm(name.constrFromAbella, ^ty)
       end;
 }
 
@@ -199,7 +199,7 @@ top::Term ::= t1::Term t2::Term
       | charTerm(char), listTerm(emptyListContents()) ->
         stringTerm(char)
       | tm, listTerm(contents) ->
-        listTerm(addListContents(tm, contents))
+        listTerm(addListContents(tm, ^contents))
       | tm1, tm2 -> consTerm(tm1, tm2)
       end;
 }

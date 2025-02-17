@@ -37,7 +37,7 @@ top::CmdArgs ::= rest::CmdArgs
 
   top.runREPL = rest.runREPL;
 
-  forwards to rest;
+  forwards to @rest;
 }
 
 

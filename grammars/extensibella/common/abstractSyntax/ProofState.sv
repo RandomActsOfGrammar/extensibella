@@ -24,7 +24,7 @@ top::ProofState ::= subgoalNum::SubgoalNum currGoal::CurrentGoal
       then cat(text("Subgoal " ++ subgoalNumToString(subgoalNum) ++
                     ":"), realLine())
       else text("");
-  top.pp = ppConcat([subgoalPP, realLine(), currGoal.pp, realLine(),
+  top.pp = ppConcat([^subgoalPP, realLine(), currGoal.pp, realLine(),
               ppImplode(cat(realLine(), realLine()),
                  --only display future goals if in Abella form
                  --hide them in Extensibella form because there might
@@ -115,7 +115,7 @@ top::CurrentGoal ::= vars::[String] ctx::Context goal::Metaterm
         then text("")
         else text("Variables: ") ++
              ppImplode(text(" "), map(text, vars)) ++ realLine();
-  top.pp = varsPP ++
+  top.pp = ^varsPP ++
            ppImplode(realLine(), ctx.pps ++
               [text("============================")]) ++
            nest(1, realLine() ++ docGroup(goal.pp)) ++ realLine();

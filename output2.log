@@ -1,0 +1,172 @@
+Compiling extensibella:composed
+	[grammars/extensibella/composed/]
+	[Main.sv Parsers.sv]
+Compiling extensibella:main:util
+	[grammars/extensibella/main/util/]
+	[CmdArgs.sv FileHandling.sv ModuleDecl.sv Parsers.sv]
+Compiling extensibella:main
+	[grammars/extensibella/main/]
+	[Main.sv]
+Compiling extensibella:toAbella:abstractSyntax
+	[grammars/extensibella/toAbella/abstractSyntax/]
+	[AnyCommand.sv Attributes.sv Compute.sv Declarations.sv ExtInd.sv ExtensibleTheorem.sv FileErrors.sv 
+	 Full.sv ImportDefinitions.sv ImportedElements.sv NoOpCommands.sv ProjectionConstraint.sv ProofCommands.sv ProverState.sv 
+	 RuleWrangling.sv RunCommands.sv SearchWitness.sv Term.sv TopCommand.sv Translation.sv Util.sv]
+Compiling extensibella:fromAbella:concreteSyntax
+	[grammars/extensibella/fromAbella/concreteSyntax/]
+	[Concrete.sv Terminals.sv]
+Compiling extensibella:toAbella:concreteSyntax
+	[grammars/extensibella/toAbella/concreteSyntax/]
+	[Concrete.sv Terminals.sv]
+Compiling extensibella:interfaceFile:concreteSyntax
+	[grammars/extensibella/interfaceFile/concreteSyntax/]
+	[Concrete.sv]
+Compiling extensibella:outerfaceFile:concreteSyntax
+	[grammars/extensibella/outerfaceFile/concreteSyntax/]
+	[Concrete.sv]
+Compiling extensibella:common:concreteSyntax
+	[grammars/extensibella/common/concreteSyntax/]
+	[Concrete.sv Terminals.sv]
+Found silver:core
+	[/home/linglong/silver/jars/silver.core.jar]
+Found silver:util:cmdargs
+	[/home/linglong/silver/jars/silver.util.jar]
+Found silver:langutil:pp
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:langutil
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Compiling extensibella:common
+	[grammars/extensibella/common/]
+	[Grammar.sv]
+Compiling extensibella:toAbella
+	[grammars/extensibella/toAbella/]
+	[Grammar.sv]
+Compiling extensibella:fromAbella
+	[grammars/extensibella/fromAbella/]
+	[Grammar.sv]
+Compiling extensibella:interfaceFile
+	[grammars/extensibella/interfaceFile/]
+	[Grammar.sv]
+Compiling extensibella:outerfaceFile
+	[grammars/extensibella/outerfaceFile/]
+	[Grammar.sv]
+Compiling extensibella:main:run
+	[grammars/extensibella/main/run/]
+	[AbellaInteraction.sv AnnotatedOutput.sv Grammar.sv HandleIncomingTheorems.sv Run.sv RunFiles.sv RunInteractive.sv]
+Compiling extensibella:main:compile
+	[grammars/extensibella/main/compile/]
+	[CompileFiles.sv Grammar.sv]
+Compiling extensibella:main:generate
+	[grammars/extensibella/main/generate/]
+	[GenerateSkeleton.sv Grammar.sv]
+Compiling extensibella:main:compose
+	[grammars/extensibella/main/compose/]
+	[Compose.sv ExtThmProofs.sv GatherStandInRules.sv Grammar.sv HandleThmElements.sv ProofStateMapper.sv Remap.sv]
+Compiling extensibella:main:thmDoc
+	[grammars/extensibella/main/thmDoc/]
+	[Grammar.sv ThmDoc.sv]
+Compiling extensibella:common:abstractSyntax
+	[grammars/extensibella/common/abstractSyntax/]
+	[Attributes.sv Env.sv Messages.sv ProofState.sv QName.sv SpecialTerms.sv Terms.sv 
+	 Translation.sv Type.sv Unify.sv Util.sv]
+Found silver:util:subprocess
+	[/home/linglong/silver/jars/silver.util.jar]
+Compiling extensibella:fromAbella:abstractSyntax
+	[grammars/extensibella/fromAbella/abstractSyntax/]
+	[Attributes.sv Errors.sv FullDisplay.sv Hypotheses.sv QName.sv SpecialTerms.sv Term.sv 
+	 Util.sv]
+Compiling extensibella:interfaceFile:abstractSyntax
+	[grammars/extensibella/interfaceFile/abstractSyntax/]
+	[Abstract.sv]
+Compiling extensibella:outerfaceFile:abstractSyntax
+	[grammars/extensibella/outerfaceFile/abstractSyntax/]
+	[Abstract.sv]
+Found silver:util:deque
+	[/home/linglong/silver/jars/silver.util.jar]
+Found silver:langutil:lsp
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:langutil:unparse
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:langutil:reflect
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:reflect
+	[/home/linglong/silver/jars/silver.util.jar]
+Found silver:util:treemap
+	[/home/linglong/silver/jars/silver.util.jar]
+Found silver:langutil:reflect:serialize
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:langutil:reflect:concretesyntax
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Checking For Errors.
+Errors for extensibella:main:util
+ [grammars/extensibella/main/util/ModuleDecl.sv]
+ModuleDecl.sv:47:2: error: Expected return type is silver:core:IOVal<silver:core:Either<String (extensibella:toAbella:abstractSyntax:ListOfCommands, [extensibella:toAbella:abstractSyntax:DefElement], [extensibella:toAbella:abstractSyntax:ThmElement], [(extensibella:common:abstractSyntax:QName, [extensibella:common:abstractSyntax:QName])])>>, but the expression has actual type silver:core:IOVal<silver:core:Either<String (Decorated extensibella:toAbella:abstractSyntax:ListOfCommands with {}, [extensibella:toAbella:abstractSyntax:DefElement], [extensibella:toAbella:abstractSyntax:ThmElement], [(Decorated extensibella:common:abstractSyntax:QName with {}, [extensibella:common:abstractSyntax:QName])])>>
+ModuleDecl.sv:78:23: error: Argument 2 of function 'silver:core:cons' expected [(Decorated extensibella:common:abstractSyntax:QName with {}, [extensibella:common:abstractSyntax:QName])] but argument is of type [(extensibella:common:abstractSyntax:QName, [extensibella:common:abstractSyntax:QName])]
+
+Errors for extensibella:toAbella:abstractSyntax
+ [grammars/extensibella/toAbella/abstractSyntax/Declarations.sv]
+Declarations.sv:132:2: error: Attribute toList has type [extensibella:toAbella:abstractSyntax:Def] but the expression being assigned to it has type [Decorated extensibella:toAbella:abstractSyntax:Def with {}]
+Declarations.sv:148:2: error: Attribute toList has type [extensibella:toAbella:abstractSyntax:Def] but the expression being assigned to it has type [Decorated extensibella:toAbella:abstractSyntax:Def with {}]
+Declarations.sv:148:15: error: Argument 2 of function 'silver:core:cons' expected [Decorated extensibella:toAbella:abstractSyntax:Def with {}] but argument is of type [extensibella:toAbella:abstractSyntax:Def]
+Declarations.sv:196:24: error: Argument 2 of function 'silver:core:eq' expected extensibella:common:abstractSyntax:QName but argument is of type Decorated extensibella:common:abstractSyntax:QName with {}
+Declarations.sv:264:24: error: Argument 2 of function 'silver:core:eq' expected extensibella:common:abstractSyntax:QName but argument is of type Decorated extensibella:common:abstractSyntax:QName with {}
+Declarations.sv:299:2: error: Attribute defTuple has type ([extensibella:common:abstractSyntax:Term], silver:core:Maybe<extensibella:common:abstractSyntax:Metaterm>) but the expression being assigned to it has type ([extensibella:common:abstractSyntax:Term], silver:core:Maybe<Decorated extensibella:common:abstractSyntax:Metaterm with {}>)
+ [grammars/extensibella/toAbella/abstractSyntax/ExtInd.sv]
+ExtInd.sv:2065:2: error: Expected return type is [extensibella:toAbella:abstractSyntax:Def], but the expression has actual type [Decorated extensibella:toAbella:abstractSyntax:Def with {}]
+ExtInd.sv:2065:9: error: Argument 2 of function 'silver:core:cons' expected [Decorated extensibella:toAbella:abstractSyntax:Def with {}] but argument is of type [extensibella:toAbella:abstractSyntax:Def]
+ExtInd.sv:2083:45: error: Ambiguous type variable a (arising from the use of contains) prevents the constraint silver:core:Eq Decorated extensibella:common:abstractSyntax:QName with a from being solved.
+ExtInd.sv:2083:57: error: Argument 2 of function 'contains' expected [Decorated extensibella:common:abstractSyntax:QName with a] but argument is of type [extensibella:common:abstractSyntax:QName]
+ExtInd.sv:2143:38: error: Tree extensibella:toAbella:abstractSyntax:buildExtSizeLemmas:local:extensibella:toAbella:abstractSyntax:ExtInd_sv:2134:8:binds in production extensibella:toAbella:abstractSyntax:buildExtSizeLemmas is shared in multiple places:
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2162:38
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2153:38
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2143:38
+
+ExtInd.sv:2144:25: error: Tree extensibella:toAbella:abstractSyntax:buildExtSizeLemmas:local:extensibella:toAbella:abstractSyntax:ExtInd_sv:2135:8:extSize in production extensibella:toAbella:abstractSyntax:buildExtSizeLemmas is shared in multiple places:
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2177:15
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2163:25
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2154:25
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2144:25
+
+ExtInd.sv:2153:38: error: Tree extensibella:toAbella:abstractSyntax:buildExtSizeLemmas:local:extensibella:toAbella:abstractSyntax:ExtInd_sv:2134:8:binds in production extensibella:toAbella:abstractSyntax:buildExtSizeLemmas is shared in multiple places:
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2162:38
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2153:38
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2143:38
+
+ExtInd.sv:2154:25: error: Tree extensibella:toAbella:abstractSyntax:buildExtSizeLemmas:local:extensibella:toAbella:abstractSyntax:ExtInd_sv:2135:8:extSize in production extensibella:toAbella:abstractSyntax:buildExtSizeLemmas is shared in multiple places:
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2177:15
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2163:25
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2154:25
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2144:25
+
+ExtInd.sv:2162:38: error: Tree extensibella:toAbella:abstractSyntax:buildExtSizeLemmas:local:extensibella:toAbella:abstractSyntax:ExtInd_sv:2134:8:binds in production extensibella:toAbella:abstractSyntax:buildExtSizeLemmas is shared in multiple places:
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2162:38
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2153:38
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2143:38
+
+ExtInd.sv:2163:25: error: Tree extensibella:toAbella:abstractSyntax:buildExtSizeLemmas:local:extensibella:toAbella:abstractSyntax:ExtInd_sv:2135:8:extSize in production extensibella:toAbella:abstractSyntax:buildExtSizeLemmas is shared in multiple places:
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2177:15
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2163:25
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2154:25
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2144:25
+
+ExtInd.sv:2164:29: error: Tree rel in production extensibella:toAbella:abstractSyntax:buildExtSizeLemmas is shared in multiple places:
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2173:29
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2164:29
+
+ExtInd.sv:2173:29: error: Tree rel in production extensibella:toAbella:abstractSyntax:buildExtSizeLemmas is shared in multiple places:
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2173:29
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2164:29
+
+ExtInd.sv:2177:15: error: Tree extensibella:toAbella:abstractSyntax:buildExtSizeLemmas:local:extensibella:toAbella:abstractSyntax:ExtInd_sv:2135:8:extSize in production extensibella:toAbella:abstractSyntax:buildExtSizeLemmas is shared in multiple places:
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2177:15
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2163:25
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2154:25
+	extensibella:toAbella:abstractSyntax:ExtInd.sv:2144:25
+
+ExtInd.sv:2179:2: error: Expected return type is [(extensibella:common:abstractSyntax:QName, extensibella:common:abstractSyntax:Metaterm)], but the expression has actual type [(Decorated extensibella:common:abstractSyntax:QName with {}, Decorated extensibella:common:abstractSyntax:Metaterm with {})]
+ExtInd.sv:2245:2: error: Expected return type is [(extensibella:common:abstractSyntax:QName, extensibella:common:abstractSyntax:Metaterm)], but the expression has actual type [(Decorated extensibella:common:abstractSyntax:QName with {}, Decorated extensibella:common:abstractSyntax:Metaterm with {})]
+ExtInd.sv:2294:32: error: Argument 2 of function 'foldr' expected extensibella:common:abstractSyntax:Metaterm but argument is of type Decorated extensibella:common:abstractSyntax:Metaterm with {}
+ExtInd.sv:2295:15: error: Argument 3 of function 'foldr' expected [extensibella:common:abstractSyntax:Metaterm] but argument is of type [Decorated extensibella:common:abstractSyntax:Metaterm with {}]
+ExtInd.sv:2295:15: error: Argument 2 of function 'silver:core:cons' expected [Decorated extensibella:common:abstractSyntax:Metaterm with {}] but argument is of type []<extensibella:common:abstractSyntax:Metaterm>
+ExtInd.sv:2297:2: error: Expected return type is (extensibella:common:abstractSyntax:QName, extensibella:common:abstractSyntax:Metaterm), but the expression has actual type (Decorated extensibella:common:abstractSyntax:QName with {}, Decorated extensibella:common:abstractSyntax:Metaterm with {})
+

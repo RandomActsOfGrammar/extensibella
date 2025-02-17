@@ -21,7 +21,7 @@ top::ProofState ::= subgoalNum::[Integer] currGoal::CurrentGoal
                        constructorEnv = top.constructorEnv;
                     }.fromAbella,
                   futureGoals), isAbellaForm=false) --now translated
-      else top; --already translated
+      else ^top; --already translated
 
   top.hypList = currGoal.hypList;
 }

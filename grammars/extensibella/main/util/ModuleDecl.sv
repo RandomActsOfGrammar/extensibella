@@ -72,10 +72,10 @@ IOVal<Either<String
                      parsed_definition.parseErrors ++ "\n"))
      --success
      else ioval(definition_file_contents.io,
-                right((definition, outerface.iovalue.fromRight.1,
+                right((^definition, outerface.iovalue.fromRight.1,
                        outerface.iovalue.fromRight.2,
                        --add this module to it
-                       (moduleName, interface.mods)::interface.buildsOns)));
+                       (^moduleName, interface.mods)::interface.buildsOns)));
 }
 
 

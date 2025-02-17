@@ -185,7 +185,7 @@ function removeFinishedObligation
         else obligations
       | projectionConstraintTheorem(q, x, b, _)::rest ->
         case provenThms of
-        | [(q2, _)] when q == q2 -> rest
+        | [(q2, _)] when ^q == q2 -> rest
         | _ -> obligations
         end
       | extIndElement(rels, thms, alsos, _)::rest ->
@@ -321,7 +321,7 @@ ProverState ::= current::ProverState newProofState::ProofState
             if null(keyRelModules) then [] else tail(keyRelModules),
             afterCmds,
             --
-            state = newProofState, debug = current.debug,
+            state = ^newProofState, debug = current.debug,
             displayWidth = current.displayWidth,
             knownTheorems = newThms ++ current.knownTheorems,
             knownExtInds = current.knownExtInds,
@@ -372,7 +372,7 @@ ProverState ::= current::ProverState newProofState::ProofState
             else current.keyRelModules,
             current.afterCommands,
             --
-            state = newProofState, debug = current.debug,
+            state = ^newProofState, debug = current.debug,
             displayWidth = current.displayWidth,
             knownTheorems = current.knownTheorems,
             knownExtInds = current.knownExtInds,
@@ -538,7 +538,7 @@ function findTheorem
   return
      filter(
         if name.isQualified
-        then \ p::(QName, Metaterm) -> p.1 == name
+        then \ p::(QName, Metaterm) -> p.1 == ^name
         else \ p::(QName, Metaterm) -> p.1.shortName == name.shortName,
         state.knownTheorems);
 }
@@ -550,7 +550,7 @@ Maybe<[(QName, [String], Bindings, ExtIndPremiseList)]> ::=
 {
   local find::[[(QName, [String], Bindings, ExtIndPremiseList)]] =
       filter(\ l::[(QName, [String], Bindings, ExtIndPremiseList)] ->
-               contains(name, map(fst, l)),
+               contains(^name, map(fst, l)),
              state.knownExtInds);
   return case find of
          | [] -> nothing()
@@ -563,7 +563,7 @@ Maybe<[(QName, [String], Bindings, ExtIndPremiseList)]> ::=
 function findExtSizeGroup
 Maybe<[QName]> ::= name::QName state::ProverState
 {
-  local find::[[QName]] = filter(contains(name, _), state.knownExtSizes);
+  local find::[[QName]] = filter(contains(^name, _), state.knownExtSizes);
   return case find of
          | [] -> nothing()
          | [x] -> just(x)
@@ -575,7 +575,7 @@ Maybe<[QName]> ::= name::QName state::ProverState
 function findProjRelGroup
 Maybe<[QName]> ::= name::QName state::ProverState
 {
-  local find::[[QName]] = filter(contains(name, _), state.knownProjRels);
+  local find::[[QName]] = filter(contains(^name, _), state.knownProjRels);
   return case find of
          | [] -> nothing()
          | [x] -> just(x)
@@ -589,8 +589,8 @@ function buildsOn
 Boolean ::= p::ProverState builtOnMod::QName buildingOnMod::QName
 {
   return
-      case lookup(buildingOnMod, p.buildsOns) of
-      | just(l) -> contains(builtOnMod, l)
+      case lookup(^buildingOnMod, p.buildsOns) of
+      | just(l) -> contains(^builtOnMod, l)
       | nothing() ->
         error("Unknown module " ++ justShow(buildingOnMod.pp))
       end;
@@ -602,7 +602,7 @@ function findMutualGroup
 Maybe<[QName]> ::= name::QName state::ProverState
 {
   local find::[[QName]] =
-      filter(contains(name, _), state.mutualRelGroups);
+      filter(contains(^name, _), state.mutualRelGroups);
   return case find of
          | [] -> nothing()
          | [x] -> just(x)

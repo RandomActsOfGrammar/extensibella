@@ -1,0 +1,368 @@
+Compiling extensibella:composed
+	[grammars/extensibella/composed/]
+	[Main.sv Parsers.sv]
+Compiling extensibella:main:util
+	[grammars/extensibella/main/util/]
+	[CmdArgs.sv FileHandling.sv ModuleDecl.sv Parsers.sv]
+Compiling extensibella:main
+	[grammars/extensibella/main/]
+	[Main.sv]
+Compiling extensibella:toAbella:abstractSyntax
+	[grammars/extensibella/toAbella/abstractSyntax/]
+	[AnyCommand.sv Attributes.sv Compute.sv Declarations.sv ExtInd.sv ExtensibleTheorem.sv FileErrors.sv 
+	 Full.sv ImportDefinitions.sv ImportedElements.sv NoOpCommands.sv ProjectionConstraint.sv ProofCommands.sv ProverState.sv 
+	 RuleWrangling.sv RunCommands.sv SearchWitness.sv Term.sv TopCommand.sv Translation.sv Util.sv]
+Compiling extensibella:fromAbella:concreteSyntax
+	[grammars/extensibella/fromAbella/concreteSyntax/]
+	[Concrete.sv Terminals.sv]
+Compiling extensibella:toAbella:concreteSyntax
+	[grammars/extensibella/toAbella/concreteSyntax/]
+	[Concrete.sv Terminals.sv]
+Compiling extensibella:interfaceFile:concreteSyntax
+	[grammars/extensibella/interfaceFile/concreteSyntax/]
+	[Concrete.sv]
+Compiling extensibella:outerfaceFile:concreteSyntax
+	[grammars/extensibella/outerfaceFile/concreteSyntax/]
+	[Concrete.sv]
+Compiling extensibella:common:concreteSyntax
+	[grammars/extensibella/common/concreteSyntax/]
+	[Concrete.sv Terminals.sv]
+Found silver:core
+	[/home/linglong/silver/jars/silver.core.jar]
+Found silver:util:cmdargs
+	[/home/linglong/silver/jars/silver.util.jar]
+Found silver:langutil:pp
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:langutil
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Compiling extensibella:common
+	[grammars/extensibella/common/]
+	[Grammar.sv]
+Compiling extensibella:toAbella
+	[grammars/extensibella/toAbella/]
+	[Grammar.sv]
+Compiling extensibella:fromAbella
+	[grammars/extensibella/fromAbella/]
+	[Grammar.sv]
+Compiling extensibella:interfaceFile
+	[grammars/extensibella/interfaceFile/]
+	[Grammar.sv]
+Compiling extensibella:outerfaceFile
+	[grammars/extensibella/outerfaceFile/]
+	[Grammar.sv]
+Compiling extensibella:main:run
+	[grammars/extensibella/main/run/]
+	[AbellaInteraction.sv AnnotatedOutput.sv Grammar.sv HandleIncomingTheorems.sv Run.sv RunFiles.sv RunInteractive.sv]
+Compiling extensibella:main:compile
+	[grammars/extensibella/main/compile/]
+	[CompileFiles.sv Grammar.sv]
+Compiling extensibella:main:generate
+	[grammars/extensibella/main/generate/]
+	[GenerateSkeleton.sv Grammar.sv]
+Compiling extensibella:main:compose
+	[grammars/extensibella/main/compose/]
+	[Compose.sv ExtThmProofs.sv GatherStandInRules.sv Grammar.sv HandleThmElements.sv ProofStateMapper.sv Remap.sv]
+Compiling extensibella:main:thmDoc
+	[grammars/extensibella/main/thmDoc/]
+	[Grammar.sv ThmDoc.sv]
+Compiling extensibella:common:abstractSyntax
+	[grammars/extensibella/common/abstractSyntax/]
+	[Attributes.sv Env.sv Messages.sv ProofState.sv QName.sv SpecialTerms.sv Terms.sv 
+	 Translation.sv Type.sv Unify.sv Util.sv]
+Found silver:util:subprocess
+	[/home/linglong/silver/jars/silver.util.jar]
+Compiling extensibella:fromAbella:abstractSyntax
+	[grammars/extensibella/fromAbella/abstractSyntax/]
+	[Attributes.sv Errors.sv FullDisplay.sv Hypotheses.sv QName.sv SpecialTerms.sv Term.sv 
+	 Util.sv]
+Compiling extensibella:interfaceFile:abstractSyntax
+	[grammars/extensibella/interfaceFile/abstractSyntax/]
+	[Abstract.sv]
+Compiling extensibella:outerfaceFile:abstractSyntax
+	[grammars/extensibella/outerfaceFile/abstractSyntax/]
+	[Abstract.sv]
+Found silver:util:deque
+	[/home/linglong/silver/jars/silver.util.jar]
+Found silver:langutil:lsp
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:langutil:unparse
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:langutil:reflect
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:reflect
+	[/home/linglong/silver/jars/silver.util.jar]
+Found silver:util:treemap
+	[/home/linglong/silver/jars/silver.util.jar]
+Found silver:langutil:reflect:serialize
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Found silver:langutil:reflect:concretesyntax
+	[/home/linglong/silver/jars/silver.langutil.jar]
+Checking For Errors.
+Generating Translation.
+	[extensibella:composed]
+	[extensibella:main:util]
+	[extensibella:main]
+	[extensibella:toAbella:abstractSyntax]
+	[extensibella:fromAbella:concreteSyntax]
+	[extensibella:toAbella:concreteSyntax]
+	[extensibella:interfaceFile:concreteSyntax]
+	[extensibella:outerfaceFile:concreteSyntax]
+	[extensibella:common:concreteSyntax]
+	[extensibella:common]
+	[extensibella:toAbella]
+	[extensibella:fromAbella]
+	[extensibella:interfaceFile]
+	[extensibella:outerfaceFile]
+	[extensibella:main:run]
+	[extensibella:main:compile]
+	[extensibella:main:generate]
+	[extensibella:main:compose]
+	[extensibella:main:thmDoc]
+	[extensibella:common:abstractSyntax]
+	[extensibella:fromAbella:abstractSyntax]
+	[extensibella:interfaceFile:abstractSyntax]
+	[extensibella:outerfaceFile:abstractSyntax]
+Generating parser extensibella:composed:from_parse.
+-------------
+Final report:
+-------------
+Parser and scanner specification
+   has 153 terminals, 38 nonterminals, 230 productions,
+   and 0 disambiguation functions declared,
+   producing 499 unique parse states
+   and 2193 unique scanner states.
+0 useless nonterminals.
+0 malformed regexes.
+0 unresolved parse table conflicts:
+   13 shift/reduce conflicts, 0 reduce/reduce, 13 resolved.
+0 unresolved lexical ambiguities:
+   155 resolved by context, 0 by disambiguation function/group.
+Parser code output to /home/linglong/silver/generated/src/extensibella/composed/Parser_extensibella_composed_from_parse.java.
+Generating parser extensibella:composed:cmd_parse.
+extensibella:toAbella:concreteSyntax/Concrete.sv:21.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:FullFile_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:24.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ListOfCommands_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:4.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ModuleDecl_c'
+-------------
+Final report:
+-------------
+Parser and scanner specification
+   has 119 terminals, 68 nonterminals, 362 productions,
+   and 0 disambiguation functions declared,
+   producing 822 unique parse states
+   and 473 unique scanner states.
+3 useless nonterminals.
+0 malformed regexes.
+0 unresolved parse table conflicts:
+   16 shift/reduce conflicts, 0 reduce/reduce, 16 resolved.
+0 unresolved lexical ambiguities:
+   4 resolved by context, 0 by disambiguation function/group.
+Parser code output to /home/linglong/silver/generated/src/extensibella/composed/Parser_extensibella_composed_cmd_parse.java.
+Generating parser extensibella:composed:module_decl_parse.
+extensibella:common:concreteSyntax/Concrete.sv:432.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:ATy_c'
+extensibella:common:concreteSyntax/Concrete.sv:519.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Ats_c'
+extensibella:common:concreteSyntax/Concrete.sv:474.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Binder_c'
+extensibella:common:concreteSyntax/Concrete.sv:475.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:BindingList_c'
+extensibella:common:concreteSyntax/Concrete.sv:476.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:BindingOne_c'
+extensibella:common:concreteSyntax/Concrete.sv:477.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:BindingVars_c'
+extensibella:common:concreteSyntax/Concrete.sv:345.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:ExpList_c'
+extensibella:common:concreteSyntax/Concrete.sv:344.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Exp_c'
+extensibella:common:concreteSyntax/Concrete.sv:521.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Hashes_c'
+extensibella:common:concreteSyntax/Concrete.sv:347.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:ListBody_c'
+extensibella:common:concreteSyntax/Concrete.sv:17.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Metaterm_c'
+extensibella:common:concreteSyntax/Concrete.sv:343.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:MidTerm_c'
+extensibella:common:concreteSyntax/Concrete.sv:348.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:PAId_c'
+extensibella:common:concreteSyntax/Concrete.sv:431.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:PTy_c'
+extensibella:common:concreteSyntax/Concrete.sv:346.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:PairBody_c'
+extensibella:common:concreteSyntax/Concrete.sv:520.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Pluses_c'
+extensibella:common:concreteSyntax/Concrete.sv:518.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Stars_c'
+extensibella:common:concreteSyntax/Concrete.sv:18.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:SubMetaterm_c'
+extensibella:common:concreteSyntax/Concrete.sv:342.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Term_c'
+extensibella:common:concreteSyntax/Concrete.sv:433.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Ty_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:923.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ATyList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:45.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:AnyCommand_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1072.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ApplyArg_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1071.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ApplyArgs_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:890.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Backs_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1223.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ClauseSel_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1109.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Clearable_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:44.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:CommonCommand_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:956.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Def_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:955.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Defs_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1201.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Depth_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1051.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:EWitness_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1050.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:EWitnesses_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1092.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ExistsBinds_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:52.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ExtBodyIHs_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:50.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ExtBody_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:51.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ExtIndBodies_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:53.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ExtIndPremiseList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:54.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ExtSizeBodies_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:21.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:FullFile_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1108.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:HHint_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1163.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:HypList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1162.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Hyp_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1105.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:IdList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1106.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:IdTy_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1107.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:IdTys_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:920.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Knd_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:24.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ListOfCommands_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1184.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:MaybeDepth_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1183.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:MaybeInst_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1210.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:NumList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:49.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Ons_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:991.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:PermIds_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:990.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Perm_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:42.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:PureCommand_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:43.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:PureTopCommand_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:55.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:QnameList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1010.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:SearchWitnessList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1009.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:SearchWitness_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1224.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:SolSel_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:48.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:TheoremStmts_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1246.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:TheoremTyparams_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:922.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:UTyList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:921.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:UTy_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:483.68: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:VarList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1110.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Withs_c'
+-------------
+Final report:
+-------------
+Parser and scanner specification
+   has 119 terminals, 68 nonterminals, 362 productions,
+   and 0 disambiguation functions declared,
+   producing 9 unique parse states
+   and 473 unique scanner states.
+66 useless nonterminals.
+0 malformed regexes.
+No parse table conflicts detected.
+0 unresolved lexical ambiguities:
+   2 resolved by context, 0 by disambiguation function/group.
+Parser code output to /home/linglong/silver/generated/src/extensibella/composed/Parser_extensibella_composed_module_decl_parse.java.
+Generating parser extensibella:composed:file_parse.
+-------------
+Final report:
+-------------
+Parser and scanner specification
+   has 119 terminals, 68 nonterminals, 362 productions,
+   and 0 disambiguation functions declared,
+   producing 833 unique parse states
+   and 473 unique scanner states.
+0 useless nonterminals.
+0 malformed regexes.
+0 unresolved parse table conflicts:
+   16 shift/reduce conflicts, 0 reduce/reduce, 16 resolved.
+0 unresolved lexical ambiguities:
+   4 resolved by context, 0 by disambiguation function/group.
+Parser code output to /home/linglong/silver/generated/src/extensibella/composed/Parser_extensibella_composed_file_parse.java.
+Generating parser extensibella:composed:import_parse.
+extensibella:toAbella:concreteSyntax/Concrete.sv:21.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:FullFile_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:4.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ModuleDecl_c'
+-------------
+Final report:
+-------------
+Parser and scanner specification
+   has 119 terminals, 68 nonterminals, 362 productions,
+   and 0 disambiguation functions declared,
+   producing 824 unique parse states
+   and 473 unique scanner states.
+2 useless nonterminals.
+0 malformed regexes.
+0 unresolved parse table conflicts:
+   16 shift/reduce conflicts, 0 reduce/reduce, 16 resolved.
+0 unresolved lexical ambiguities:
+   4 resolved by context, 0 by disambiguation function/group.
+Parser code output to /home/linglong/silver/generated/src/extensibella/composed/Parser_extensibella_composed_import_parse.java.
+Generating parser extensibella:composed:outerface_parse.
+extensibella:toAbella:concreteSyntax/Concrete.sv:45.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:AnyCommand_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1072.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ApplyArg_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1071.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ApplyArgs_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:890.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Backs_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1223.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ClauseSel_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1109.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Clearable_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:44.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:CommonCommand_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1201.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Depth_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1051.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:EWitness_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1050.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:EWitnesses_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1092.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ExistsBinds_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:21.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:FullFile_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1108.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:HHint_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1163.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:HypList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1162.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Hyp_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:24.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ListOfCommands_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1184.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:MaybeDepth_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1183.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:MaybeInst_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:4.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:ModuleDecl_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1210.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:NumList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:991.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:PermIds_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:990.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Perm_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:42.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:PureCommand_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1010.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:SearchWitnessList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1009.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:SearchWitness_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1224.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:SolSel_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:922.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:UTyList_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:921.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:UTy_c'
+extensibella:toAbella:concreteSyntax/Concrete.sv:1110.0: warning: useless nonterminal 'extensibella:toAbella:concreteSyntax:Withs_c'
+-------------
+Final report:
+-------------
+Parser and scanner specification
+   has 119 terminals, 70 nonterminals, 367 productions,
+   and 0 disambiguation functions declared,
+   producing 613 unique parse states
+   and 473 unique scanner states.
+29 useless nonterminals.
+0 malformed regexes.
+0 unresolved parse table conflicts:
+   16 shift/reduce conflicts, 0 reduce/reduce, 16 resolved.
+0 unresolved lexical ambiguities:
+   4 resolved by context, 0 by disambiguation function/group.
+Parser code output to /home/linglong/silver/generated/src/extensibella/composed/Parser_extensibella_composed_outerface_parse.java.
+Generating parser extensibella:composed:interface_parse.
+extensibella:common:concreteSyntax/Concrete.sv:432.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:ATy_c'
+extensibella:common:concreteSyntax/Concrete.sv:519.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Ats_c'
+extensibella:common:concreteSyntax/Concrete.sv:474.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Binder_c'
+extensibella:common:concreteSyntax/Concrete.sv:475.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:BindingList_c'
+extensibella:common:concreteSyntax/Concrete.sv:476.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:BindingOne_c'
+extensibella:common:concreteSyntax/Concrete.sv:477.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:BindingVars_c'
+extensibella:common:concreteSyntax/Concrete.sv:345.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:ExpList_c'
+extensibella:common:concreteSyntax/Concrete.sv:344.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Exp_c'
+extensibella:common:concreteSyntax/Concrete.sv:521.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Hashes_c'
+extensibella:common:concreteSyntax/Concrete.sv:347.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:ListBody_c'
+extensibella:common:concreteSyntax/Concrete.sv:17.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Metaterm_c'
+extensibella:common:concreteSyntax/Concrete.sv:343.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:MidTerm_c'
+extensibella:common:concreteSyntax/Concrete.sv:348.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:PAId_c'
+extensibella:common:concreteSyntax/Concrete.sv:431.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:PTy_c'
+extensibella:common:concreteSyntax/Concrete.sv:346.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:PairBody_c'
+extensibella:common:concreteSyntax/Concrete.sv:520.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Pluses_c'
+extensibella:common:concreteSyntax/Concrete.sv:518.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Stars_c'
+extensibella:common:concreteSyntax/Concrete.sv:18.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:SubMetaterm_c'
+extensibella:common:concreteSyntax/Concrete.sv:342.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Term_c'
+extensibella:common:concreteSyntax/Concrete.sv:433.0: warning: useless nonterminal 'extensibella:common:concreteSyntax:Ty_c'
+-------------
+Final report:
+-------------
+Parser and scanner specification
+   has 51 terminals, 23 nonterminals, 142 productions,
+   and 0 disambiguation functions declared,
+   producing 22 unique parse states
+   and 129 unique scanner states.
+20 useless nonterminals.
+0 malformed regexes.
+No parse table conflicts detected.
+0 unresolved lexical ambiguities:
+   2 resolved by context, 0 by disambiguation function/group.
+Parser code output to /home/linglong/silver/generated/src/extensibella/composed/Parser_extensibella_composed_interface_parse.java.
+Buildfile: /home/linglong/extensibella/build.xml
+
+init:
+
+grammars:
+    [javac] Compiling 1461 source files to /home/linglong/silver/generated/bin
+
+jars:
+      [jar] Building jar: /home/linglong/extensibella/extensibella.jar
+
+dist:
+
+BUILD SUCCESSFUL
+Total time: 39 seconds

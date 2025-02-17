@@ -74,7 +74,7 @@ top::NoOpCommand ::= theoremName::QName
   top.abella_pp = "Show " ++ theoremName.abella_pp ++ ".\n";
 
   production possibleThms::[(QName, Metaterm)] =
-      findTheorem(theoremName, top.proverState);
+      findTheorem(^theoremName, top.proverState);
   top.toAbella = [showCommand(head(possibleThms).1)];
 
   top.newProverState = top.proverState;
@@ -108,7 +108,7 @@ top::NoOpCommand ::=
   top.pp = cat(text("Quit."), realLine());
   top.abella_pp = "Quit.\n";
 
-  top.toAbella = [top];
+  top.toAbella = [^top];
 
   top.newProverState = top.proverState;
   top.newPriorStep = nothing();
@@ -161,7 +161,7 @@ top::NoOpCommand ::=
   top.pp = cat(text("#reset."), realLine());
   top.abella_pp = "#reset.\n";
 
-  top.toAbella = [top];
+  top.toAbella = [^top];
 
   --this command is a fiction, so nothing here
   top.newProverState = error("resetCommand.newProverState");

@@ -11,7 +11,7 @@ attribute name {} occurs on a => [a] ::= name::QName env::Env<a>
   return
      findAllEnv(
         if name.isQualified
-        then \ item::a -> item.name == name
+        then \ item::a -> item.name == ^name
         else \ item::a -> item.name.shortName == name.shortName,
         env);
 }
@@ -69,8 +69,8 @@ abstract production langTypeEnvItem
 top::TypeEnvItem ::= name::QName kind::Integer args::TypeList
                      clauseModules::[QName]
 {
-  top.name = name;
-  top.type = nameType(name);
+  top.name = ^name;
+  top.type = nameType(^name);
 
   top.isLangType = true;
   top.isProofType = false;
@@ -78,9 +78,9 @@ top::TypeEnvItem ::= name::QName kind::Integer args::TypeList
 
   top.kind = kind;
 
-  top.projTypes = args;
+  top.projTypes = ^args;
 
-  top.unknownConstrI = unknownIQName(name);
+  top.unknownConstrI = unknownIQName(^name);
 
   top.clauseModules = clauseModules;
 }
@@ -90,8 +90,8 @@ top::TypeEnvItem ::= name::QName kind::Integer args::TypeList
 abstract production libTypeEnvItem
 top::TypeEnvItem ::= name::QName kind::Integer
 {
-  top.name = name;
-  top.type = nameType(name);
+  top.name = ^name;
+  top.type = nameType(^name);
 
   top.isLangType = false;
   top.isProofType = false;
@@ -114,8 +114,8 @@ top::TypeEnvItem ::= name::QName kind::Integer
 abstract production proofTypeEnvItem
 top::TypeEnvItem ::= name::QName kind::Integer
 {
-  top.name = name;
-  top.type = nameType(name);
+  top.name = ^name;
+  top.type = nameType(^name);
 
   top.isLangType = false;
   top.isProofType = true;
@@ -167,10 +167,10 @@ data nonterminal ConstructorEnvItem with name, type, types;
 abstract production constructorEnvItem
 top::ConstructorEnvItem ::= name::QName builtType::Type args::TypeList
 {
-  top.name = name;
+  top.name = ^name;
 
-  top.type = builtType;
-  top.types = args;
+  top.type = ^builtType;
+  top.types = ^args;
 }
 
 
@@ -190,9 +190,9 @@ abstract production extRelationEnvItem
 top::RelationEnvItem ::= name::QName args::TypeList pcIndex::Integer
           clauseModules::[QName] defsList::[([Term], Maybe<Metaterm>)]
 {
-  top.name = name;
+  top.name = ^name;
 
-  top.types = args;
+  top.types = ^args;
 
   top.isExtensible = true;
 
@@ -203,16 +203,16 @@ top::RelationEnvItem ::= name::QName args::TypeList pcIndex::Integer
 
   top.defsList = defsList;
 
-  top.unknownConstrK = unknownKQName(name);
+  top.unknownConstrK = unknownKQName(^name);
 }
 
 
 abstract production fixedRelationEnvItem
 top::RelationEnvItem ::= name::QName args::TypeList
 {
-  top.name = name;
+  top.name = ^name;
 
-  top.types = args;
+  top.types = ^args;
 
   top.isExtensible = false;
 

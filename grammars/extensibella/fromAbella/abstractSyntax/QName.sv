@@ -17,9 +17,9 @@ top::SubQName ::= name::String
   --if we only have the short name, this is a var or stdLib const/rel
   top.fromAbella = basicQName(baseName(name));
 
-  top.relFromAbella = basicQName(top);
-  top.tyFromAbella = basicQName(top);
-  top.constrFromAbella = basicQName(top);
+  top.relFromAbella = basicQName(^top);
+  top.tyFromAbella = basicQName(^top);
+  top.constrFromAbella = basicQName(^top);
 }
 
 
@@ -28,7 +28,7 @@ top::SubQName ::= name::String rest::SubQName
 {
   --fromAbella should only be for error messages from QName, so use
   --the full name
-  top.fromAbella = basicQName(top);
+  top.fromAbella = basicQName(^top);
 
   --check if there are other relations by the same short name
   --only translates 
@@ -36,7 +36,7 @@ top::SubQName ::= name::String rest::SubQName
       case lookupEnv(basicQName(baseName(rest.shortName)), top.relationEnv) of
       | [] -> error("Not possible (rel):  " ++ justShow(top.pp))
       | [_] -> basicQName(baseName(rest.shortName)) --no confusion
-      | l -> basicQName(top)
+      | l -> basicQName(^top)
       end;
 
   --check if there are other types by the same short name
@@ -44,7 +44,7 @@ top::SubQName ::= name::String rest::SubQName
       case lookupEnv(basicQName(baseName(rest.shortName)), top.typeEnv) of
       | [] -> error("Not possible (ty):  " ++ justShow(top.pp))
       | [_] -> basicQName(baseName(rest.shortName)) --no confusion
-      | l -> basicQName(top)
+      | l -> basicQName(^top)
       end;
 
   --check if there are other constructors by the same short name
@@ -66,7 +66,7 @@ top::SubQName ::= name::String rest::SubQName
                         top.relationEnv)))) ++ "]")
       | [_], [] -> basicQName(baseName(rest.shortName)) --no confusion
       | [], [_] -> basicQName(baseName(rest.shortName)) --no confusion
-      | l1, l2 -> basicQName(top)
+      | l1, l2 -> basicQName(^top)
       end;
 }
 
@@ -107,8 +107,8 @@ top::QName ::= rest::SubQName
   top.isProjection = true;
   top.projFromAbella =
       case rest.tyFromAbella of
-      | tyQName(s) -> projQName(s)
-      | basicQName(s) -> projQName(s) --shortened name for display
+      | tyQName(s) -> projQName(^s)
+      | basicQName(s) -> projQName(^s) --shortened name for display
       | _ ->
         error("Cannot have projection for this (" ++
               rest.tyFromAbella.abella_pp ++ ")")

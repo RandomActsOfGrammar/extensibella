@@ -153,8 +153,8 @@ Term ::= fun::Term args::[Term]
 {
   --I'll make this handle degenerate "applications" as well
   return if null(args)
-         then fun
-         else applicationTerm(fun, buildApplicationArgs(args));
+         then ^fun
+         else applicationTerm(^fun, buildApplicationArgs(args));
 }
 
 function buildApplicationArgs
@@ -238,14 +238,14 @@ function justShow
 String ::= d::Document
 {
   --that ought to be long enough for anything we use this for
-  return showDoc(99999, d);
+  return showDoc(99999, ^d);
 }
 
 --group is also a function in silver:core for lists
 function docGroup
 Document ::= d::Document
 {
-  return silver:langutil:pp:group(d);
+  return silver:langutil:pp:group(^d);
 }
 
 

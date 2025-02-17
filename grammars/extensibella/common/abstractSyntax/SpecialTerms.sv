@@ -14,8 +14,8 @@ top::Metaterm ::= args::TermList ty::QName orig::Term proj::Term
                                        proj.abella_pp;
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unifyProjTy::TypeUnify =
       if ty.typeFound
@@ -37,7 +37,7 @@ top::Metaterm ::= args::TermList ty::QName orig::Term proj::Term
   unifyArgs.downSubst = unifyTerms.upSubst;
   top.upSubst = unifyArgs.upSubst;
 
-  top.subst = projectionMetaterm(args.subst, ty, orig.subst, proj.subst);
+  top.subst = projectionMetaterm(args.subst, ^ty, orig.subst, proj.subst);
 }
 
 
@@ -61,8 +61,8 @@ top::Metaterm ::= t1::Term t2::Term result::Term
       ") (" ++ t2.abella_pp ++ ") (" ++ result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t1.type);
   local unify2::TypeUnify = typeUnify(integerType, t2.type);
@@ -87,8 +87,8 @@ top::Metaterm ::= t1::Term t2::Term result::Term
       ") (" ++ t2.abella_pp ++ ") (" ++ result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t1.type);
   local unify2::TypeUnify = typeUnify(integerType, t2.type);
@@ -113,8 +113,8 @@ top::Metaterm ::= t1::Term t2::Term result::Term
       ") (" ++ t2.abella_pp ++ ") (" ++ result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t1.type);
   local unify2::TypeUnify = typeUnify(integerType, t2.type);
@@ -139,8 +139,8 @@ top::Metaterm ::= t1::Term t2::Term result::Term
       ") (" ++ t2.abella_pp ++ ") (" ++ result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t1.type);
   local unify2::TypeUnify = typeUnify(integerType, t2.type);
@@ -165,8 +165,8 @@ top::Metaterm ::= t1::Term t2::Term result::Term
       ") (" ++ t2.abella_pp ++ ") (" ++ result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t1.type);
   local unify2::TypeUnify = typeUnify(integerType, t2.type);
@@ -190,8 +190,8 @@ top::Metaterm ::= t::Term result::Term
                   result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t.type);
   local unify2::TypeUnify = typeUnify(integerType, result.type);
@@ -212,8 +212,8 @@ top::Metaterm ::= t1::Term t2::Term
                   ") (" ++ t2.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t1.type);
   local unify2::TypeUnify = typeUnify(integerType, t2.type);
@@ -234,8 +234,8 @@ top::Metaterm ::= t1::Term t2::Term
                   ") (" ++ t2.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t1.type);
   local unify2::TypeUnify = typeUnify(integerType, t2.type);
@@ -256,8 +256,8 @@ top::Metaterm ::= t1::Term t2::Term
                   ") (" ++ t2.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t1.type);
   local unify2::TypeUnify = typeUnify(integerType, t2.type);
@@ -278,8 +278,8 @@ top::Metaterm ::= t1::Term t2::Term
                   ") (" ++ t2.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(integerType, t1.type);
   local unify2::TypeUnify = typeUnify(integerType, t2.type);
@@ -302,14 +302,14 @@ top::Metaterm ::= t1::Term t2::Term result::Term r::Restriction
                   t2.abella_pp ++ ") (" ++ result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local lis::Type =
       listType(varType("__Append" ++ toString(genInt())));
-  local unify1::TypeUnify = typeUnify(lis, t1.type);
-  local unify2::TypeUnify = typeUnify(lis, t2.type);
-  local unify3::TypeUnify = typeUnify(lis, result.type);
+  local unify1::TypeUnify = typeUnify(@lis, t1.type);
+  local unify2::TypeUnify = typeUnify(^lis, t2.type);
+  local unify3::TypeUnify = typeUnify(^lis, result.type);
   t1.downSubst = top.downSubst;
   t2.downSubst = t1.upSubst;
   result.downSubst = t2.upSubst;
@@ -318,7 +318,7 @@ top::Metaterm ::= t1::Term t2::Term result::Term r::Restriction
   unify3.downSubst = unify2.upSubst;
   top.upSubst = unify3.upSubst;
 
-  top.subst = appendMetaterm(t1.subst, t2.subst, result.subst, r);
+  top.subst = appendMetaterm(t1.subst, t2.subst, result.subst, ^r);
 }
 
 abstract production orBoolMetaterm
@@ -330,8 +330,8 @@ top::Metaterm ::= t1::Term t2::Term result::Term
                   t2.abella_pp ++ ") (" ++ result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(boolType, t1.type);
   local unify2::TypeUnify = typeUnify(boolType, t2.type);
@@ -356,8 +356,8 @@ top::Metaterm ::= t1::Term t2::Term result::Term
                   t2.abella_pp ++ ") (" ++ result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(boolType, t1.type);
   local unify2::TypeUnify = typeUnify(boolType, t2.type);
@@ -381,8 +381,8 @@ top::Metaterm ::= t::Term result::Term
                   result.abella_pp ++ ")";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify1::TypeUnify = typeUnify(boolType, t.type);
   local unify2::TypeUnify = typeUnify(boolType, result.type);
@@ -407,8 +407,8 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
                   args.abella_pp ++ r.abella_pp;
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify::TypeUnify =
       if rel.relFound
@@ -421,7 +421,7 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
   unify.downSubst = args.upSubst;
   top.upSubst = unify.upSubst;
 
-  top.subst = extSizeMetaterm(rel, args.subst, r);
+  top.subst = extSizeMetaterm(^rel, args.subst, ^r);
 }
 
 abstract production projRelMetaterm
@@ -434,8 +434,8 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
                   args.abella_pp ++ r.abella_pp;
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify::TypeUnify =
       if rel.relFound
@@ -447,7 +447,7 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
   unify.downSubst = args.upSubst;
   top.upSubst = unify.upSubst;
 
-  top.subst = projRelMetaterm(rel, args.subst, r);
+  top.subst = projRelMetaterm(^rel, args.subst, ^r);
 }
 
 
@@ -471,20 +471,20 @@ top::Term ::= ty::QName
   top.headConstructor =
       error("unknownITerm.headConstructor not valid");
 
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 
   top.unifySuccess =
       case top.unifyWith of
-      | unknownITerm(ty2) -> ty == ty2
+      | unknownITerm(ty2) -> ^ty == ^ty2
       | nameTerm(q, _) when !q.isQualified -> true
       | _ -> false
       end;
   top.unifyEqs = [];
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -513,20 +513,20 @@ top::Term ::= rel::QName
   top.headConstructor =
       error("unknownKTerm.headConstructor not valid");
 
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 
   top.unifySuccess =
       case top.unifyWith of
-      | unknownKTerm(rel2) -> rel == rel2
+      | unknownKTerm(rel2) -> ^rel == ^rel2
       | nameTerm(q, _) when !q.isQualified -> true
       | _ -> false
       end;
   top.unifyEqs = [];
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -548,7 +548,7 @@ top::Term ::= i::Integer
 
   top.headConstructor = error("intTerm.headConstructor not valid");
 
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 
@@ -561,7 +561,7 @@ top::Term ::= i::Integer
   top.unifyEqs = [];
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -580,7 +580,7 @@ top::Term ::= contents::String
 
   top.headConstructor = error("stringTerm.headConstructor not valid");
 
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 
@@ -593,7 +593,7 @@ top::Term ::= contents::String
   top.unifyEqs = [];
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -612,7 +612,7 @@ top::Term ::=
 
   top.headConstructor = error("trueTerm.headConstructor not valid");
 
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 
@@ -625,7 +625,7 @@ top::Term ::=
   top.unifyEqs = [];
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -644,7 +644,7 @@ top::Term ::=
 
   top.headConstructor = error("falseTerm.headConstructor not valid");
 
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 
@@ -657,7 +657,7 @@ top::Term ::=
   top.unifyEqs = [];
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -693,13 +693,13 @@ top::Term ::= contents::ListContents
       case top.unifyWith of
       | listTerm(c) -> zip(contents.toList, c.toList)
       | consTerm(a, b) ->
-        [(head(contents.toList), a),
-         (foldr(consTerm, nilTerm(), tail(contents.toList)), b)]
+        [(head(contents.toList), ^a),
+         (foldr(consTerm, nilTerm(), tail(contents.toList)), ^b)]
       | _ -> []
       end;
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -738,7 +738,7 @@ top::Term ::= contents::PairContents
       end;
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -758,7 +758,7 @@ top::Term ::= char::String
 
   top.headConstructor = error("charTerm.headConstructor not valid");
 
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 
@@ -771,7 +771,7 @@ top::Term ::= char::String
   top.unifyEqs = [];
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -805,7 +805,7 @@ top::ListContents ::=
   top.abella_pp = "nil";
   top.toList = [];
   top.len = 0;
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 
@@ -818,7 +818,7 @@ top::ListContents ::= t::Term rest::ListContents
 {
   top.pps = t.pp::rest.pps;
   top.abella_pp = "(" ++ t.abella_pp ++ ")::" ++ rest.abella_pp;
-  top.toList = t::rest.toList;
+  top.toList = ^t::rest.toList;
   top.len = 1 + rest.len;
   top.subst = addListContents(t.subst, rest.subst);
 
@@ -856,7 +856,7 @@ top::PairContents ::= t::Term
 {
   top.pps = [t.pp];
   top.abella_pp = t.abella_pp;
-  top.toList = [t];
+  top.toList = [^t];
   top.len = 1;
   top.subst = singlePairContents(t.subst);
 
@@ -873,7 +873,7 @@ top::PairContents ::= t::Term rest::PairContents
   top.pps = t.pp::rest.pps;
   top.abella_pp = pairConstructorName ++ " (" ++ t.abella_pp ++
                   ") (" ++ rest.abella_pp ++ ")";
-  top.toList = t::rest.toList;
+  top.toList = ^t::rest.toList;
   top.len = 1 + rest.len;
   top.subst = addPairContents(t.subst, rest.subst);
 

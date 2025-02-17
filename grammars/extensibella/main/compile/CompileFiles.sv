@@ -93,14 +93,14 @@ String ::= currentModule::QName comms::ListOfCommands
   comms.relationEnv = proverState.knownRels;
   comms.constructorEnv = proverState.knownConstrs;
   comms.proverState = proverState;
-  comms.currentModule = currentModule;
+  comms.currentModule = ^currentModule;
   comms.ignoreDefErrors = true;
   local initTags::[Tag] =
       filterMap(fst, comms.compiled);
   --everything extensible tagged, non-extensible still nothing()
   local allTagged::[(Maybe<Tag>, TopCommand)] =
       combineTags(comms.compiled, initTags, (0, 0, 1, ""),
-         currentModule);
+         ^currentModule);
   --use abella_pp to get correct prefixes for relations, types, etc.
   return implode("\n",
             map(\ p::(Maybe<Tag>, TopCommand) ->
@@ -134,14 +134,14 @@ function combineTags
    tags::[Tag] last::Tag
    mod::QName
 {
-  local n::Integer = hashModule(mod);
+  local n::Integer = hashModule(^mod);
   return
       case comms, tags of
       | [], _ -> []
       | (just(t), c)::rest, _::restT ->
-        (just(t), c)::combineTags(rest, restT, t, mod)
+        (just(t), c)::combineTags(rest, restT, t, ^mod)
       | (nothing(), c)::rest, tags when c.is_nonextensible ->
-        (nothing(), c)::combineTags(rest, tags, last, mod)
+        (nothing(), c)::combineTags(rest, tags, last, ^mod)
       | (nothing(), c)::rest, nextT::restT ->
         let newTagNum::(Integer, Integer, Integer) =
             betweenTag(last, nextT, n)
@@ -149,14 +149,14 @@ function combineTags
         let newTag::Tag =
             (newTagNum.1, newTagNum.2, newTagNum.3, justShow(mod.pp))
         in
-          (just(newTag), c)::combineTags(rest, tags, newTag, mod)
+          (just(newTag), c)::combineTags(rest, tags, newTag, ^mod)
         end end
       | (nothing(), c)::rest, [] ->
         let newTag::Tag =
             --add n to the whole number, drop the fraction
             (last.1 + n, 0, 1, justShow(mod.pp))
         in
-          (just(newTag), c)::combineTags(rest, [], newTag, mod)
+          (just(newTag), c)::combineTags(rest, [], newTag, ^mod)
         end
       end;
 }
@@ -318,7 +318,7 @@ attribute compiled<Maybe<TopCommand>>, maybeTag occurs on TopCommand;
 aspect production theoremDeclaration
 top::TopCommand ::= name::QName params::[String] body::Metaterm
 {
-  top.compiled = just(theoremDeclaration(fullName, params, body.full));
+  top.compiled = just(theoremDeclaration(^fullName, params, body.full));
   top.maybeTag = nothing();
 }
 
@@ -381,7 +381,7 @@ top::TopCommand ::= tys::TypeList
 aspect production kindDeclaration
 top::TopCommand ::= names::[QName] k::Kind
 {
-  top.compiled = just(kindDeclaration(newNames, k));
+  top.compiled = just(kindDeclaration(newNames, ^k));
   top.maybeTag = nothing();
 }
 
@@ -447,7 +447,7 @@ aspect production projectionConstraint
 top::TopCommand ::= name::QName binds::Bindings body::ExtBody
 {
   top.compiled =
-      just(projectionConstraint(fullName, binds, body.full));
+      just(projectionConstraint(^fullName, ^binds, body.full));
   top.maybeTag = nothing();
 }
 
@@ -460,14 +460,14 @@ top::TopCommand ::= name::QName
          \ t::ThmElement ->
            case t of
            | projectionConstraintTheorem(projName, binds, body, _) ->
-             name == projName
+             ^name == ^projName
            | _ -> false
            end,
          top.proverState.remainingObligations);
   top.compiled =
       case foundThm of
       | [projectionConstraintTheorem(name, binds, body, _)] ->
-        just(projectionConstraint(name, binds, body))
+        just(projectionConstraint(^name, ^binds, ^body))
       | _ ->
         error("Could not identify constraint when compiling " ++
               "Prove_Constraint; file must be checkable before " ++

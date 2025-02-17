@@ -58,7 +58,7 @@ concrete productions top::Metaterm_c
         | trueTerm() -> right(trueMetaterm())
         | falseTerm() -> right(falseMetaterm())
         | applicationTerm(nameTerm(q, _), args) ->
-          right(relationMetaterm(q, args, emptyRestriction()))
+          right(relationMetaterm(^q, ^args, emptyRestriction()))
         | t -> left("Cannot treat " ++ justShow(t.pp) ++
                     " as a proposition")
         end; }
@@ -229,7 +229,7 @@ concrete productions top::SubMetaterm_c
         | falseTerm() ->
           left("Cannot have restrictions on false")
         | applicationTerm(nameTerm(q, _), args) ->
-          right(relationMetaterm(q, args, s.ast))
+          right(relationMetaterm(^q, ^args, s.ast))
         | t -> left("Cannot treat " ++ justShow(t.pp) ++
                     " as a proposition")
         end; }
@@ -241,7 +241,7 @@ concrete productions top::SubMetaterm_c
         | falseTerm() ->
           left("Cannot have restrictions on false")
         | applicationTerm(nameTerm(q, _), args) ->
-          right(relationMetaterm(q, args, p.ast))
+          right(relationMetaterm(^q, ^args, p.ast))
         | t -> left("Cannot treat " ++ justShow(t.pp) ++
                     " as a proposition")
         end; }
@@ -253,7 +253,7 @@ concrete productions top::SubMetaterm_c
         | falseTerm() ->
           left("Cannot have restrictions on false")
         | applicationTerm(nameTerm(q, _), args) ->
-          right(relationMetaterm(q, args, a.ast))
+          right(relationMetaterm(^q, ^args, a.ast))
         | t -> left("Cannot treat " ++ justShow(t.pp) ++
                     " as a proposition")
         end; }
@@ -265,7 +265,7 @@ concrete productions top::SubMetaterm_c
         | falseTerm() ->
           left("Cannot have restrictions on false")
         | applicationTerm(nameTerm(q, _), args) ->
-          right(relationMetaterm(q, args, h.ast))
+          right(relationMetaterm(^q, ^args, h.ast))
         | t -> left("Cannot treat " ++ justShow(t.pp) ++
                     " as a proposition")
         end; }

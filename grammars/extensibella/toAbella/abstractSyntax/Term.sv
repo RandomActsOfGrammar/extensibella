@@ -10,7 +10,7 @@ propagate proverState, toAbellaMsgs on Metaterm;
 aspect production relationMetaterm
 top::Metaterm ::= rel::QName args::TermList r::Restriction
 {
-  top.toAbella = relationMetaterm(rel.fullRel.name, args.toAbella, r);
+  top.toAbella = relationMetaterm(rel.fullRel.name, args.toAbella, ^r);
 
   top.toAbellaMsgs <- rel.relErrors;
 }
@@ -20,7 +20,7 @@ aspect production extSizeMetaterm
 top::Metaterm ::= rel::QName args::TermList r::Restriction
 {
   top.toAbella = relationMetaterm(extSizeQName(rel.fullRel.name.sub),
-                                  args.toAbella, r);
+                                  args.toAbella, ^r);
 
   top.toAbellaMsgs <- rel.relErrors;
   top.toAbellaMsgs <-
@@ -36,7 +36,7 @@ aspect production projRelMetaterm
 top::Metaterm ::= rel::QName args::TermList r::Restriction
 {
   top.toAbella = relationMetaterm(projRelQName(rel.fullRel.name.sub),
-                                  args.toAbella, r);
+                                  args.toAbella, ^r);
 
   top.toAbellaMsgs <- rel.relErrors;
   top.toAbellaMsgs <-
@@ -48,23 +48,23 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
   --defined, but currently being proven, so not in ExtIndGroups yet
   local projRelInState::Boolean =
       contains(rel.fullRel.name, top.proverState.state.projRels) ||
-      contains(rel, top.proverState.state.projRels);
+      contains(^rel, top.proverState.state.projRels);
 
-  top.projRels := [rel];
+  top.projRels := [^rel];
 }
 
 
 aspect production trueMetaterm
 top::Metaterm ::=
 {
-  top.toAbella = top;
+  top.toAbella = ^top;
 }
 
 
 aspect production falseMetaterm
 top::Metaterm ::=
 {
-  top.toAbella = top;
+  top.toAbella = ^top;
 }
 
 
@@ -99,7 +99,7 @@ top::Metaterm ::= t1::Metaterm t2::Metaterm
 aspect production bindingMetaterm
 top::Metaterm ::= b::Binder bindings::Bindings body::Metaterm
 {
-  top.toAbella = bindingMetaterm(b, bindings.toAbella, body.toAbella);
+  top.toAbella = bindingMetaterm(^b, bindings.toAbella, body.toAbella);
 }
 
 
@@ -247,7 +247,7 @@ top::Metaterm ::= t1::Term t2::Term result::Term r::Restriction
          toQName(appendName),
          buildApplicationArgs([t1.toAbella, t2.toAbella,
                               result.toAbella]),
-         r);
+         ^r);
 }
 
 
@@ -341,9 +341,9 @@ top::Term ::= name::QName mty::MaybeType
 {
   top.toAbella =
       if name.isQualified
-      then nameTerm(name, mty.toAbella)
+      then nameTerm(^name, mty.toAbella)
       else if contains(name.shortName, top.boundNames)
-      then nameTerm(name, mty.toAbella) --assume it refers to binding
+      then nameTerm(^name, mty.toAbella) --assume it refers to binding
       else --if not bound, assume defined name to look up
            nameTerm(
               case name.fullConstr of
@@ -356,7 +356,7 @@ top::Term ::= name::QName mty::MaybeType
       then []
       else name.constrErrors;
 
-  top.headRel = just(name);
+  top.headRel = just(^name);
 }
 
 
@@ -370,7 +370,7 @@ top::Term ::= t1::Term t2::Term
 aspect production nilTerm
 top::Term ::=
 {
-  top.toAbella = top;
+  top.toAbella = ^top;
 }
 
 

@@ -55,7 +55,7 @@ top::Type ::= functorTy::Type argTy::Type
 aspect production varType
 top::Type ::= name::String
 {
-  top.toAbella = top;
+  top.toAbella = ^top;
 }
 
 
@@ -129,7 +129,7 @@ top::Defs ::= d::Def
 
   top.relationClauseModules = d.relationClauseModules;
 
-  top.toList = [d];
+  top.toList = [^d];
   top.len = 1;
 }
 
@@ -145,7 +145,7 @@ top::Defs ::= d::Def rest::Defs
   top.relationClauseModules =
       d.relationClauseModules ++ rest.relationClauseModules;
 
-  top.toList = d::rest.toList;
+  top.toList = ^d::rest.toList;
   top.len = 1 + rest.len;
 }
 
@@ -193,7 +193,7 @@ top::Def ::= defRel::QName args::TermList
   production foundDef::[(QName, Type)] =
       flatMap(\ p::(QName, Type) ->
                 if defRel.isQualified
-                then if p.1 == defRel then [p] else []
+                then if p.1 == ^defRel then [p] else []
                 else if p.1.shortName == defRel.shortName
                      then [p] else [],
               top.beingDefined);
@@ -206,7 +206,7 @@ top::Def ::= defRel::QName args::TermList
           if length(fullList) < pc
           then []
           else case elemAtIndex(fullList, pc).headRel of
-               | just(x) -> [(extQName(pc, sub), x.moduleName)]
+               | just(x) -> [(extQName(pc, ^sub), x.moduleName)]
                | nothing() -> []
                end
         end
@@ -214,7 +214,7 @@ top::Def ::= defRel::QName args::TermList
         let fullList::[Term] = args.full.toList
         in
           case elemAtIndex(fullList, length(fullList) - 2).headRel of
-          | just(x) -> [(projQName(sub), x.moduleName)]
+          | just(x) -> [(projQName(^sub), x.moduleName)]
           | nothing() -> []
           end
         end
@@ -222,7 +222,7 @@ top::Def ::= defRel::QName args::TermList
       end;
 
   top.defRel = if defRel.isQualified
-               then defRel
+               then ^defRel
                else addQNameBase(top.currentModule, defRel.shortName);
   top.defTuple = (args.toList, nothing());
 }
@@ -261,7 +261,7 @@ top::Def ::= defRel::QName args::TermList body::Metaterm
   production foundDef::[(QName, Type)] =
       flatMap(\ p::(QName, Type) ->
                 if defRel.isQualified
-                then if p.1 == defRel then [p] else []
+                then if p.1 == ^defRel then [p] else []
                 else if p.1.shortName == defRel.shortName
                      then [p] else [],
               top.beingDefined);
@@ -274,7 +274,7 @@ top::Def ::= defRel::QName args::TermList body::Metaterm
           if length(fullList) < pc
           then []
           else case elemAtIndex(fullList, pc).headRel of
-               | just(x) -> [(extQName(pc, sub), x.moduleName)]
+               | just(x) -> [(extQName(pc, ^sub), x.moduleName)]
                | nothing() -> []
                end
         end
@@ -286,7 +286,7 @@ top::Def ::= defRel::QName args::TermList body::Metaterm
           | _, falseMetaterm() ->
             --placeholder clause because we can't have empty relations
             []
-          | just(x), _ -> [(projQName(sub), x.moduleName)]
+          | just(x), _ -> [(projQName(^sub), x.moduleName)]
           | nothing(), _ -> []
           end
         end
@@ -294,7 +294,7 @@ top::Def ::= defRel::QName args::TermList body::Metaterm
       end;
 
   top.defRel = if defRel.isQualified
-               then defRel
+               then ^defRel
                else addQNameBase(top.currentModule, defRel.shortName);
-  top.defTuple = (args.toList, just(body));
+  top.defTuple = (args.toList, just(^body));
 }

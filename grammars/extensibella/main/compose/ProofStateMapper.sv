@@ -56,7 +56,7 @@ top::ProofState ::= subgoalNum::SubgoalNum currGoal::CurrentGoal
   local fullGoal::CurrentGoal = currGoal.full;
   fullGoal.mapTo =
       case top.mapTo of
-      | proofInProgress(_, c, _) -> c
+      | proofInProgress(_, c, _) -> ^c
       | _ -> error("Should not access (proofInProgress)")
       end;
 
@@ -114,7 +114,7 @@ top::CurrentGoal ::= vars::[String] ctx::Context goal::Metaterm
 {
   goal.varMap_in = [];
   goal.mapTo = case top.mapTo of
-               | currentGoal(_, _, g) -> g
+               | currentGoal(_, _, g) -> ^g
                end;
 
   local ctxMap::Maybe<([(String, String, Boolean)],
@@ -222,17 +222,17 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
 {
   args.mapTo =
       case top.mapTo of
-      | relationMetaterm(_, x, _) -> x
-      | projRelMetaterm(_, x, _) -> x
+      | relationMetaterm(_, x, _) -> ^x
+      | projRelMetaterm(_, x, _) -> ^x
       | _ -> error("Should not access (relationMetaterm)")
       end;
 
   top.mapSuccess =
       case top.mapTo of
       | relationMetaterm(rel2, _, r2) ->
-        args.mapSuccess && rel2 == rel && r2 == r
+        args.mapSuccess && ^rel2 == ^rel && ^r2 == ^r
       | projRelMetaterm(rel2, _, r2) ->
-        args.mapSuccess && rel2 == rel && r2 == r
+        args.mapSuccess && ^rel2 == ^rel && ^r2 == ^r
       | _ -> false
       end;
 }
@@ -265,12 +265,12 @@ top::Metaterm ::= t1::Term t2::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | eqMetaterm(x, _) -> x
+      | eqMetaterm(x, _) -> ^x
       | _ -> error("Should not access (eqMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | eqMetaterm(_, x) -> x
+      | eqMetaterm(_, x) -> ^x
       | _ -> error("Should not access (eqMetaterm)")
       end;
 
@@ -287,12 +287,12 @@ top::Metaterm ::= t1::Metaterm t2::Metaterm
 {
   t1.mapTo =
       case top.mapTo of
-      | impliesMetaterm(x, _) -> x
+      | impliesMetaterm(x, _) -> ^x
       | _ -> error("Should not access (impliesMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | impliesMetaterm(_, x) -> x
+      | impliesMetaterm(_, x) -> ^x
       | _ -> error("Should not access (impliesMetaterm)")
       end;
 
@@ -309,12 +309,12 @@ top::Metaterm ::= t1::Metaterm t2::Metaterm
 {
   t1.mapTo =
       case top.mapTo of
-      | orMetaterm(x, _) -> x
+      | orMetaterm(x, _) -> ^x
       | _ -> error("Should not access (orMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | orMetaterm(_, x) -> x
+      | orMetaterm(_, x) -> ^x
       | _ -> error("Should not access (orMetaterm)")
       end;
 
@@ -331,12 +331,12 @@ top::Metaterm ::= t1::Metaterm t2::Metaterm
 {
   t1.mapTo =
       case top.mapTo of
-      | andMetaterm(x, _) -> x
+      | andMetaterm(x, _) -> ^x
       | _ -> error("Should not access (andMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | andMetaterm(_, x) -> x
+      | andMetaterm(_, x) -> ^x
       | _ -> error("Should not access (andMetaterm)")
       end;
 
@@ -353,14 +353,14 @@ top::Metaterm ::= b::Binder nameBindings::Bindings body::Metaterm
 {
   body.mapTo =
       case top.mapTo of
-      | bindingMetaterm(_, _, nbody) -> nbody
+      | bindingMetaterm(_, _, nbody) -> ^nbody
       | _ -> error("Should not access (bindingMetaterm)")
       end;
 
   top.mapSuccess =
       case top.mapTo of
       | bindingMetaterm(nb, nn, nbody) ->
-        b == nb &&
+        ^b == ^nb &&
         nameBindings.len == nn.len &&
         body.mapSuccess
       | _ -> false
@@ -413,17 +413,17 @@ top::Metaterm ::= args::TermList ty::QName orig::Term proj::Term
 {
   args.mapTo =
       case top.mapTo of
-      | projectionMetaterm(a, _, _, _) -> a
+      | projectionMetaterm(a, _, _, _) -> ^a
       | _ -> error("Should not access (projectionMetaterm)")
       end;
   orig.mapTo =
       case top.mapTo of
-      | projectionMetaterm(_, _, o, _) -> o
+      | projectionMetaterm(_, _, o, _) -> ^o
       | _ -> error("Should not access (projectionMetaterm)")
       end;
   proj.mapTo =
       case top.mapTo of
-      | projectionMetaterm(_, _, _, t) -> t
+      | projectionMetaterm(_, _, _, t) -> ^t
       | _ -> error("Should not access (projectionMetaterm)")
       end;
 
@@ -431,7 +431,7 @@ top::Metaterm ::= args::TermList ty::QName orig::Term proj::Term
       case top.mapTo of
       | projectionMetaterm(a, t, o, r) ->
         args.mapSuccess && orig.mapSuccess && proj.mapSuccess &&
-        ty == t --no mapping types, only equality
+        ^ty == ^t --no mapping types, only equality
       | _ -> false
       end;
 }
@@ -442,17 +442,17 @@ top::Metaterm ::= t1::Term t2::Term result::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | plusMetaterm(x, _, _) -> x
+      | plusMetaterm(x, _, _) -> ^x
       | _ -> error("Should not access (plusMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | plusMetaterm(_, x, _) -> x
+      | plusMetaterm(_, x, _) -> ^x
       | _ -> error("Should not access (plusMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | plusMetaterm(_, _, x) -> x
+      | plusMetaterm(_, _, x) -> ^x
       | _ -> error("Should not access (plusMetaterm)")
       end;
 
@@ -470,17 +470,17 @@ top::Metaterm ::= t1::Term t2::Term result::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | minusMetaterm(x, _, _) -> x
+      | minusMetaterm(x, _, _) -> ^x
       | _ -> error("Should not access (minusMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | minusMetaterm(_, x, _) -> x
+      | minusMetaterm(_, x, _) -> ^x
       | _ -> error("Should not access (minusMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | minusMetaterm(_, _, x) -> x
+      | minusMetaterm(_, _, x) -> ^x
       | _ -> error("Should not access (minusMetaterm)")
       end;
 
@@ -498,17 +498,17 @@ top::Metaterm ::= t1::Term t2::Term result::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | multiplyMetaterm(x, _, _) -> x
+      | multiplyMetaterm(x, _, _) -> ^x
       | _ -> error("Should not access (multiplyMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | multiplyMetaterm(_, x, _) -> x
+      | multiplyMetaterm(_, x, _) -> ^x
       | _ -> error("Should not access (multiplyMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | multiplyMetaterm(_, _, x) -> x
+      | multiplyMetaterm(_, _, x) -> ^x
       | _ -> error("Should not access (multiplyMetaterm)")
       end;
 
@@ -526,17 +526,17 @@ top::Metaterm ::= t1::Term t2::Term result::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | divideMetaterm(x, _, _) -> x
+      | divideMetaterm(x, _, _) -> ^x
       | _ -> error("Should not access (divideMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | divideMetaterm(_, x, _) -> x
+      | divideMetaterm(_, x, _) -> ^x
       | _ -> error("Should not access (divideMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | divideMetaterm(_, _, x) -> x
+      | divideMetaterm(_, _, x) -> ^x
       | _ -> error("Should not access (divideMetaterm)")
       end;
 
@@ -554,17 +554,17 @@ top::Metaterm ::= t1::Term t2::Term result::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | modulusMetaterm(x, _, _) -> x
+      | modulusMetaterm(x, _, _) -> ^x
       | _ -> error("Should not access (modulusMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | modulusMetaterm(_, x, _) -> x
+      | modulusMetaterm(_, x, _) -> ^x
       | _ -> error("Should not access (modulusMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | modulusMetaterm(_, _, x) -> x
+      | modulusMetaterm(_, _, x) -> ^x
       | _ -> error("Should not access (modulusMetaterm)")
       end;
 
@@ -582,12 +582,12 @@ top::Metaterm ::= t::Term result::Term
 {
   t.mapTo =
       case top.mapTo of
-      | negateMetaterm(x, _) -> x
+      | negateMetaterm(x, _) -> ^x
       | _ -> error("Should not access (negateMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | negateMetaterm(_, x) -> x
+      | negateMetaterm(_, x) -> ^x
       | _ -> error("Should not access (negateMetaterm)")
       end;
 
@@ -605,12 +605,12 @@ top::Metaterm ::= t1::Term t2::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | lessMetaterm(x, _) -> x
+      | lessMetaterm(x, _) -> ^x
       | _ -> error("Should not access (lessMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | lessMetaterm(_, x) -> x
+      | lessMetaterm(_, x) -> ^x
       | _ -> error("Should not access (lessMetaterm)")
       end;
 
@@ -628,12 +628,12 @@ top::Metaterm ::= t1::Term t2::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | lessEqMetaterm(x, _) -> x
+      | lessEqMetaterm(x, _) -> ^x
       | _ -> error("Should not access (lessEqMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | lessEqMetaterm(_, x) -> x
+      | lessEqMetaterm(_, x) -> ^x
       | _ -> error("Should not access (lessEqMetaterm)")
       end;
 
@@ -651,12 +651,12 @@ top::Metaterm ::= t1::Term t2::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | greaterMetaterm(x, _) -> x
+      | greaterMetaterm(x, _) -> ^x
       | _ -> error("Should not access (greaterMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | greaterMetaterm(_, x) -> x
+      | greaterMetaterm(_, x) -> ^x
       | _ -> error("Should not access (greaterMetaterm)")
       end;
 
@@ -674,12 +674,12 @@ top::Metaterm ::= t1::Term t2::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | greaterEqMetaterm(x, _) -> x
+      | greaterEqMetaterm(x, _) -> ^x
       | _ -> error("Should not access (greaterEqMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | greaterEqMetaterm(_, x) -> x
+      | greaterEqMetaterm(_, x) -> ^x
       | _ -> error("Should not access (greaterEqMetaterm)")
       end;
 
@@ -697,24 +697,24 @@ top::Metaterm ::= t1::Term t2::Term result::Term r::Restriction
 {
   t1.mapTo =
       case top.mapTo of
-      | appendMetaterm(x, _, _, _) -> x
+      | appendMetaterm(x, _, _, _) -> ^x
       | _ -> error("Should not access (appendMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | appendMetaterm(_, x, _, _) -> x
+      | appendMetaterm(_, x, _, _) -> ^x
       | _ -> error("Should not access (appendMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | appendMetaterm(_, _, x, _) -> x
+      | appendMetaterm(_, _, x, _) -> ^x
       | _ -> error("Should not access (appendMetaterm)")
       end;
 
   top.mapSuccess =
       case top.mapTo of
       | appendMetaterm(_, _, _, r2) ->
-        t1.mapSuccess && t2.mapSuccess && result.mapSuccess && r == r2
+        t1.mapSuccess && t2.mapSuccess && result.mapSuccess && ^r == ^r2
       | _ -> false
       end;
 }
@@ -725,17 +725,17 @@ top::Metaterm ::= t1::Term t2::Term result::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | orBoolMetaterm(x, _, _) -> x
+      | orBoolMetaterm(x, _, _) -> ^x
       | _ -> error("Should not access (orBoolMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | orBoolMetaterm(_, x, _) -> x
+      | orBoolMetaterm(_, x, _) -> ^x
       | _ -> error("Should not access (orBoolMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | orBoolMetaterm(_, _, x) -> x
+      | orBoolMetaterm(_, _, x) -> ^x
       | _ -> error("Should not access (orBoolMetaterm)")
       end;
 
@@ -753,17 +753,17 @@ top::Metaterm ::= t1::Term t2::Term result::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | andBoolMetaterm(x, _, _) -> x
+      | andBoolMetaterm(x, _, _) -> ^x
       | _ -> error("Should not access (andBoolMetaterm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | andBoolMetaterm(_, x, _) -> x
+      | andBoolMetaterm(_, x, _) -> ^x
       | _ -> error("Should not access (andBoolMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | andBoolMetaterm(_, _, x) -> x
+      | andBoolMetaterm(_, _, x) -> ^x
       | _ -> error("Should not access (andBoolMetaterm)")
       end;
 
@@ -781,12 +781,12 @@ top::Metaterm ::= t::Term result::Term
 {
   t.mapTo =
       case top.mapTo of
-      | notBoolMetaterm(x, _) -> x
+      | notBoolMetaterm(x, _) -> ^x
       | _ -> error("Should not access (notBoolMetaterm)")
       end;
   result.mapTo =
       case top.mapTo of
-      | notBoolMetaterm(_, x) -> x
+      | notBoolMetaterm(_, x) -> ^x
       | _ -> error("Should not access (notBoolMetaterm)")
       end;
 
@@ -804,14 +804,14 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
 {
   args.mapTo =
       case top.mapTo of
-      | extSizeMetaterm(_, a, _) -> a
+      | extSizeMetaterm(_, a, _) -> ^a
       | _ -> error("Should not access (extSizeMetaterm)")
       end;
 
   top.mapSuccess =
       case top.mapTo of
       | extSizeMetaterm(rel2, _, r2) ->
-        rel == rel2 && args.mapSuccess && r == r2
+        ^rel == ^rel2 && args.mapSuccess && ^r == ^r2
       | _ -> false
       end;
 }
@@ -822,14 +822,14 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
 {
   args.mapTo =
       case top.mapTo of
-      | projRelMetaterm(_, a, _) -> a
+      | projRelMetaterm(_, a, _) -> ^a
       | _ -> error("Should not access (projRelMetaterm)")
       end;
 
   top.mapSuccess =
       case top.mapTo of
       | projRelMetaterm(rel2, _, r2) ->
-        rel == rel2 && args.mapSuccess && r == r2
+        ^rel == ^rel2 && args.mapSuccess && ^r == ^r2
       | _ -> false
       end;
 }
@@ -851,12 +851,12 @@ top::Term ::= f::Term args::TermList
 {
   f.mapTo =
       case top.mapTo of
-      | applicationTerm(x, _) -> x
+      | applicationTerm(x, _) -> ^x
       | _ -> error("Should not access (applicationTerm)")
       end;
   args.mapTo =
       case top.mapTo of
-      | applicationTerm(_, x) -> x
+      | applicationTerm(_, x) -> ^x
       | _ -> error("Should not access (applicationTerm)")
       end;
 
@@ -877,7 +877,7 @@ top::Term ::= name::QName mty::MaybeType
   top.mapSuccess =
       if name.isQualified
       then case top.mapTo of --constructor, so need same one
-           | nameTerm(q, _) -> q == name
+           | nameTerm(q, _) -> ^q == ^name
            | _ -> false
            end
       else case lookedUp of --var case
@@ -900,12 +900,12 @@ top::Term ::= t1::Term t2::Term
 {
   t1.mapTo =
       case top.mapTo of
-      | consTerm(x, _) -> x
+      | consTerm(x, _) -> ^x
       | _ -> error("Should not access (consTerm)")
       end;
   t2.mapTo =
       case top.mapTo of
-      | consTerm(_, x) -> x
+      | consTerm(_, x) -> ^x
       | _ -> error("Should not access (consTerm)")
       end;
 
@@ -1007,7 +1007,7 @@ top::Term ::= contents::ListContents
 {
   contents.mapTo =
       case top.mapTo of
-      | listTerm(c) -> c
+      | listTerm(c) -> ^c
       | _ -> error("Should not access (listTerm)")
       end;
 
@@ -1024,7 +1024,7 @@ top::Term ::= contents::PairContents
 {
   contents.mapTo =
       case top.mapTo of
-      | pairTerm(c) -> c
+      | pairTerm(c) -> ^c
       | _ -> error("Should not access (pairTerm)")
       end;
 
@@ -1062,8 +1062,8 @@ top::TermList ::= t::Term
 {
   t.mapTo =
       case top.mapTo of
-      | singleTermList(x) -> x
-      | consTermList(x, emptyTermList()) -> x
+      | singleTermList(x) -> ^x
+      | consTermList(x, emptyTermList()) -> ^x
       | _ -> error("Should not access (singleTermList)")
       end;
 
@@ -1081,13 +1081,13 @@ top::TermList ::= t::Term rest::TermList
 {
   t.mapTo =
       case top.mapTo of
-      | consTermList(x, _) -> x
-      | singleTermList(x) -> x
+      | consTermList(x, _) -> ^x
+      | singleTermList(x) -> ^x
       | _ -> error("Should not access (consTermList)")
       end;
   rest.mapTo =
       case top.mapTo of
-      | consTermList(_, x) -> x
+      | consTermList(_, x) -> ^x
       | singleTermList(_) -> emptyTermList()
       | _ -> error("Should not access (consTermList)")
       end;
@@ -1138,12 +1138,12 @@ top::ListContents ::= t::Term rest::ListContents
 {
   t.mapTo =
       case top.mapTo of
-      | addListContents(x, _) -> x
+      | addListContents(x, _) -> ^x
       | _ -> error("Should not access (addListContents)")
       end;
   rest.mapTo =
       case top.mapTo of
-      | addListContents(_, x) -> x
+      | addListContents(_, x) -> ^x
       | _ -> error("Should not access (addListContents)")
       end;
 
@@ -1170,7 +1170,7 @@ top::PairContents ::= t::Term
 {
   t.mapTo =
       case top.mapTo of
-      | singlePairContents(x) -> x
+      | singlePairContents(x) -> ^x
       | _ -> error("Should not access (singlePairContents)")
       end;
 
@@ -1187,12 +1187,12 @@ top::PairContents ::= t::Term rest::PairContents
 {
   t.mapTo =
       case top.mapTo of
-      | addPairContents(x, _) -> x
+      | addPairContents(x, _) -> ^x
       | _ -> error("Should not access (addPairContents)")
       end;
   rest.mapTo =
       case top.mapTo of
-      | addPairContents(_, x) -> x
+      | addPairContents(_, x) -> ^x
       | _ -> error("Should not access (addPairContents)")
       end;
 

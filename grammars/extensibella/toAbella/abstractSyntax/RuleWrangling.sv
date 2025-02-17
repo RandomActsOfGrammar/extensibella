@@ -32,7 +32,7 @@ function premiseUnificationPairs
 {
   return foldr(\ m::Metaterm rest::([Term], [Term]) ->
                  case m of
-                 | eqMetaterm(a, b) -> (a::rest.1, b::rest.2)
+                 | eqMetaterm(a, b) -> (^a::rest.1, ^b::rest.2)
                  | falseMetaterm() ->
                    (intTerm(1)::rest.1, intTerm(0)::rest.2)
                  | _ -> rest

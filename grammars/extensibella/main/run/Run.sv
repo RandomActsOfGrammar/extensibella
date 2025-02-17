@@ -34,8 +34,8 @@ IOVal<Integer> ::=
    config::Configuration ioin::IOToken
 {
   local decCmds::Either<IOVal<String>  DecCmds> =
-      buildDecRunCommands(filename, cmds, parsers, currentModule,
-         definitionCmds, importDefs, importThms, buildsOns, config,
+      buildDecRunCommands(filename, ^cmds, parsers, ^currentModule,
+         ^definitionCmds, importDefs, importThms, buildsOns, config,
          ioin);
 
   return
@@ -68,7 +68,7 @@ Either<IOVal<String>  DecCmds> ::=
   --basic context information from the definition file
   local build_context::(Env<TypeEnvItem>, Env<RelationEnvItem>,
                         Env<ConstructorEnvItem>) =
-      module_elements(definitionCmds);
+      module_elements(^definitionCmds);
   --context information for imported definitions
   local importedProofDefs::([TypeEnvItem], [RelationEnvItem],
                             [ConstructorEnvItem], [[QName]]) =
@@ -98,7 +98,7 @@ Either<IOVal<String>  DecCmds> ::=
                 }.toAbella, d.encode),
          importDefs);
   local set_up_abella::IOToken =
-      set_up_abella_module(currentModule, definitionCmds, importDefCmds,
+      set_up_abella_module(^currentModule, ^definitionCmds, importDefCmds,
          parsers, started.iovalue.fromRight, stdLibThms.io,
          config);
   --
@@ -109,13 +109,13 @@ Either<IOVal<String>  DecCmds> ::=
          started.iovalue.fromRight, set_up_abella, config);
 
   --set inh attrs for processing file
-  cmds.currentModule = currentModule;
+  cmds.currentModule = ^currentModule;
   cmds.filename = filename;
   cmds.parsers = parsers;
   cmds.proverState = handleIncoming.2;
   cmds.priorStep =
       decorate emptyRunCommands() with {
-         currentModule = currentModule;
+         currentModule = ^currentModule;
          interactive = config.runsInteractive;
          priorStep = error("initial.priorStep");
          proverState = handleIncoming.2;
@@ -175,7 +175,7 @@ top::ListOfCommands ::=
 aspect production addListOfCommands
 top::ListOfCommands ::= a::AnyCommand rest::ListOfCommands
 {
-  top.toRunCommands = addRunCommands(a, rest.toRunCommands);
+  top.toRunCommands = addRunCommands(^a, rest.toRunCommands);
 }
 
 
@@ -294,7 +294,7 @@ top::RunCommands ::= a::AnyCommand rest::RunCommands
   --Run any during commands for the current subgoal
   local io_action_3::IOVal<(Integer, ProverState, FullDisplay)> =
       if continueProcessing
-      then runDuringCommands(a.newProverState, full_a,
+      then runDuringCommands(a.newProverState, ^full_a,
               top.parsers.from_parse, io_action_2, top.abella, debug,
               top.config)
       else ioval(io_action_2, error("Should not access (3)"));
@@ -474,8 +474,8 @@ IOVal<(Integer, ProverState, FullDisplay)> ::=
                 setProofState(penultimateState,
                               proofState.fromAbella),
                 if shouldClean
-                then cleaned_display
-                else displayIn));
+                then ^cleaned_display
+                else ^displayIn));
 }
 
 

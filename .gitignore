@@ -30,3 +30,5 @@ generated/
 
 # Output from composition testing
 test/compositionTest/out.thm
+# output1.log
+output2.log

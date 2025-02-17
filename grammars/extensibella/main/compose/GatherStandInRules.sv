@@ -57,7 +57,7 @@ top::TopCommand ::= preds::[(QName, Type)] defs::Defs
 {
   top.standInRules =
       case preds, defs of
-      | [(standInRuleQName(relQ), _)], singleDefs(d) -> [(relQ, d)]
+      | [(standInRuleQName(relQ), _)], singleDefs(d) -> [(^relQ, ^d)]
       | _, _ -> []
       end;
 }

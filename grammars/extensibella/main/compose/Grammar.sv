@@ -45,7 +45,7 @@ top::CmdArgs ::= args::[String] rest::CmdArgs
 
   top.runREPL = false;
 
-  forwards to rest;
+  forwards to @rest;
 }
 
 

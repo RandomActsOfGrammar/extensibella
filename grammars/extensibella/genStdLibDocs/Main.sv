@@ -122,7 +122,7 @@ top::CmdArgs ::= rest::CmdArgs
 
   top.doHelp = rest.doHelp;
 
-  forwards to rest;
+  forwards to ^rest;
 }
 
 
@@ -137,7 +137,7 @@ top::CmdArgs ::= rest::CmdArgs
 
   top.doHelp = rest.doHelp;
 
-  forwards to rest;
+  forwards to ^rest;
 }
 
 
@@ -152,7 +152,7 @@ top::CmdArgs ::= name::String rest::CmdArgs
 
   top.doHelp = rest.doHelp;
 
-  forwards to rest;
+  forwards to ^rest;
 }
 
 
@@ -167,7 +167,7 @@ top::CmdArgs ::= name::String rest::CmdArgs
 
   top.doHelp = rest.doHelp;
 
-  forwards to rest;
+  forwards to ^rest;
 }
 
 
@@ -182,7 +182,7 @@ top::CmdArgs ::= rest::CmdArgs
 
   top.doHelp = true;
 
-  forwards to rest;
+  forwards to ^rest;
 }
 
 
@@ -484,7 +484,7 @@ top::TopCommand ::= name::QName params::[String] body::Metaterm
 {
   top.docString =
       if name.isQualified --assume qualification is the stdLib one
-      then top.formatThm(name, params, body.fromAbella)
+      then top.formatThm(^name, params, body.fromAbella)
       else "";
 
   local markdown::String =

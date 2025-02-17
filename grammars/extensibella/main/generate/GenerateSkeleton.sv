@@ -28,7 +28,7 @@ IOVal<Boolean> ::= module::QName filename::String parsers::AllParsers
                              (ListOfCommands, [DefElement],
                               [ThmElement],
                               [(QName, [QName])])>> =
-      processModuleDecl(module, parsers, ioin);
+      processModuleDecl(^module, parsers, ioin);
   local outputThms::[ThmElement] =
       filter((.inSkeleton), processModule.iovalue.fromRight.3);
   local outputString::String =

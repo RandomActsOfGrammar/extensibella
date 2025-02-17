@@ -29,7 +29,7 @@ top::CmdArgs ::= rest::CmdArgs
 
   top.runREPL = false; --this requires files
 
-  forwards to rest;
+  forwards to @rest;
 }
 
 

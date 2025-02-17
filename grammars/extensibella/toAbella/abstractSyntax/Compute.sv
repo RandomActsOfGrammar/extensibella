@@ -63,7 +63,7 @@ function buildCaseTactics
               [caseTactic(nameHint("$" ++ toString(i + 1)),
                           "$" ++ toString(i), false)],
             --solved immediately, as this is a hyp
-            [assertTactic(nameHint("$0"), nothing(), initialBody)],
+            [assertTactic(nameHint("$0"), nothing(), ^initialBody)],
             range(0, num));
 }
 
@@ -118,7 +118,7 @@ top::Metaterm ::= t1::Term t2::Term result::Term
         else -i1
       | _, _, _ -> error("Should not access (plusMetaterm.computeCmds)")
       end;
-  top.computeCmds = buildCaseTactics(top, numComputes);
+  top.computeCmds = buildCaseTactics(^top, numComputes);
 }
 
 
@@ -147,7 +147,7 @@ top::Metaterm ::= t1::Term t2::Term result::Term
         else -i1 + 1
       | _, _ -> error("Should not access (minusMetaterm.computeCmds)")
       end;
-  top.computeCmds = buildCaseTactics(top, numComputes);
+  top.computeCmds = buildCaseTactics(^top, numComputes);
 }
 
 
@@ -191,8 +191,8 @@ top::Metaterm ::= t1::Term t2::Term result::Term r::Restriction
   top.isComputable =
       case t1, t2, result of
       --can always compute with full list first and a name to set
-      | _, _, nameTerm(_, _) -> fullList(t1)
-      | _, nameTerm(_, _), _ -> fullList(t1)
+      | _, _, nameTerm(_, _) -> fullList(^t1)
+      | _, nameTerm(_, _), _ -> fullList(^t1)
       --only completely-known strings
       | stringTerm(""), _, nameTerm(_, _) -> true
       | stringTerm(""), nameTerm(_, _), _ -> true
@@ -204,23 +204,23 @@ top::Metaterm ::= t1::Term t2::Term result::Term r::Restriction
   local fullList::(Boolean ::= Term) =
       \ t::Term -> case t of
                    | nilTerm() -> true
-                   | consTerm(_, r) -> fullList(r)
+                   | consTerm(_, r) -> fullList(^r)
                    | listTerm(_) -> true
                    | _ -> unsafeTracePrint(false, "Cannot do " ++ justShow(t1.pp) ++ " (2)\n")
                    end;
 
   --number of elements in the list we need to go through
-  local num::Integer = listLen(t1);
+  local num::Integer = listLen(^t1);
   local listLen::(Integer ::= Term) =
       \ t::Term -> case t of
                    | nilTerm() -> 0
-                   | consTerm(_, r) -> 1 + listLen(r)
+                   | consTerm(_, r) -> 1 + listLen(^r)
                    | listTerm(c) -> c.len
                    | _ -> 0
                    end;
 
   --num + 1 cases
-  top.computeCmds = buildCaseTactics(top, num + 1);
+  top.computeCmds = buildCaseTactics(^top, num + 1);
 {-      foldl(\ rest::[ProofCommand] i::Integer ->
               rest ++
               [caseTactic(nameHint("$" ++ toString(i + 1)),
@@ -267,6 +267,6 @@ top::Metaterm ::= t::Term result::Term
   top.isComputable = (t.isConstant && !result.isConstant) ||
                      (!t.isConstant && result.isConstant);
 
-  top.computeCmds = [assertTactic(nameHint("$0"), nothing(), top),
+  top.computeCmds = [assertTactic(nameHint("$0"), nothing(), ^top),
                      caseTactic(noHint(), "$0", false)];
 }

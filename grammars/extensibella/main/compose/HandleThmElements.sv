@@ -594,14 +594,14 @@ top::ThmElement ::= name::QName binds::Bindings body::ExtBody
                     tag::Tag
 {
   --MWDA copy of body
-  local bodyC::ExtBody = body;
+  local bodyC::ExtBody = ^body;
   bodyC.relationEnv = top.relEnv;
   bodyC.constructorEnv = top.constrEnv;
   bodyC.typeEnv = top.tyEnv;
   bodyC.boundNames = binds.usedNames;
 
   local tcMods::[(QName, DecCmds)] =
-      getAllOccurrences(top.incomingMods, [name]);
+      getAllOccurrences(top.incomingMods, [^name]);
   --first contains declaration and set-up
   local startPrf::String =
       case head(tcMods).2 of
@@ -620,10 +620,10 @@ top::ThmElement ::= name::QName binds::Bindings body::ExtBody
       "/*End " ++ justShow(name.pp) ++ "*/\n\n\n";
 
   --took these proofs, so drop them
-  top.outgoingMods = dropAllOccurrences(top.incomingMods, [name]);
+  top.outgoingMods = dropAllOccurrences(top.incomingMods, [^name]);
 
   top.newThms =
-      [(name, bindingMetaterm(forallBinder(), binds, body.thm))];
+      [(^name, bindingMetaterm(forallBinder(), ^binds, body.thm))];
 }
 
 
@@ -634,7 +634,7 @@ top::ThmElement ::= name::QName params::[String] stmt::Metaterm
   --as stmt is not necessarily fully Abella (e.g. there can be strings
   --in it), but decorating stmt itself requires orphaned equations.
   --Thus we make a copy of it here.
-  local cstmt::Metaterm = stmt;
+  local cstmt::Metaterm = ^stmt;
   cstmt.typeEnv = top.tyEnv;
   cstmt.relationEnv = top.relEnv;
   cstmt.constructorEnv = top.constrEnv;
@@ -655,7 +655,7 @@ top::ThmElement ::= name::QName params::[String] stmt::Metaterm
       declaration ++ updatePair.2 ++ "\n" ++
       "/*End " ++ justShow(name.pp) ++ "*/\n\n\n";
 
-  top.newThms = [(name, stmt)];
+  top.newThms = [(^name, ^stmt)];
 }
 
 
@@ -671,7 +671,7 @@ top::ThmElement ::= toSplit::QName newNames::[QName]
 
   top.newThms =
       zip(newNames,
-          lookup(toSplit, top.allThms).fromJust.splitConjunctions);
+          lookup(^toSplit, top.allThms).fromJust.splitConjunctions);
 }
 
 
@@ -1030,7 +1030,7 @@ ExtBody ::= boundVars::Bindings rel::QName relArgs::[String]
       map(\ x::String -> nameTerm(toQName(x), nothingType()), relArgs);
   local n::String = freshName("N", boundVars.usedNames);
   local relPrem::Metaterm =
-      relationMetaterm(rel,
+      relationMetaterm(@rel,
          toTermList(args ++
             if useExtSize
             then [nameTerm(toQName(n), nothingType())]
@@ -1059,12 +1059,12 @@ ExtBody ::= boundVars::Bindings rel::QName relArgs::[String]
                  | just(n) -> n
                  | nothing() -> "_"
                  end, p.2, rest),
-            endExtBody(conc), premises);
+            endExtBody(^conc), premises);
   return
       if useExtSize
-      then addLabelExtBody(relPremName, relPrem,
-              addLabelExtBody(accPremName, acc, base))
-      else addLabelExtBody(relPremName, relPrem, base);
+      then addLabelExtBody(relPremName, ^relPrem,
+              addLabelExtBody(accPremName, ^acc, ^base))
+      else addLabelExtBody(relPremName, ^relPrem, ^base);
 }
 
 function buildProjRel_standInRules
@@ -1096,9 +1096,9 @@ function buildDefInfo
       | ruleDef(rel, args,
                 bindingMetaterm(existsBinder(), binds, body)) ->
         (flatMap((.usedNames), args.toList),
-         map(fst, binds.toList), just(body))
+         map(fst, binds.toList), just(^body))
       | ruleDef(rel, args, body) ->
-        (flatMap((.usedNames), args.toList), [], just(body))
+        (flatMap((.usedNames), args.toList), [], just(^body))
       end;
 
   local first::(QName, ([String], [String], Maybe<Metaterm>),
@@ -1116,8 +1116,8 @@ Integer ::= q::QName l::[(QName, a)]
 {
   return case l of
          | [] -> error("not in list")
-         | (x, _)::_ when x == q -> 0
-         | _::rest -> indexOfName(q, rest) + 1
+         | (x, _)::_ when x == ^q -> 0
+         | _::rest -> indexOfName(^q, rest) + 1
          end;
 }
 
@@ -1187,8 +1187,8 @@ top::ThmElement ::= rels::[(QName, [String])] tag::Tag
                        map(\ m::Metaterm ->
                              case m of
                              | relationMetaterm(q, _, _)
-                               when contains(q, map(fst, rels)) ->
-                               indexOfName(q, rels) --index of IH
+                               when contains(^q, map(fst, rels)) ->
+                               indexOfName(^q, rels) --index of IH
                              | _ -> -1
                              end,
                           l.2)),
@@ -1520,8 +1520,8 @@ top::ThmElement ::= rels::[(QName, [String])] tag::Tag
                        map(\ m::Metaterm ->
                              case m of
                              | relationMetaterm(q, _, _)
-                               when contains(q, map(fst, rels)) ->
-                               indexOfName(q, rels) --index of IH
+                               when contains(^q, map(fst, rels)) ->
+                               indexOfName(^q, rels) --index of IH
                              | _ -> -1
                              end,
                           l.2)),
@@ -1632,14 +1632,14 @@ function updateMod
 {
   return case mods of
          | [] -> error("Module not in module map")
-         | (q, c)::rest when q == mod ->
+         | (q, c)::rest when q == ^mod ->
            let p::(DecCmds, String) = update(c)
            in
              ((q, p.1)::rest, p.2)
            end
          | (q, c)::rest ->
            let p::([(QName, DecCmds)], String) =
-               updateMod(rest, mod, update)
+               updateMod(rest, ^mod, update)
            in
              ((q, c)::p.1, p.2)
            end
@@ -1964,10 +1964,10 @@ top::ExtBody ::= label::String m::Metaterm rest::ExtBody
       if label == top.makeProjRel
       then case m of
            | relationMetaterm(q, a, r) ->
-             addLabelExtBody(label, projRelMetaterm(q, a, r), rest)
+             addLabelExtBody(label, projRelMetaterm(^q, ^a, ^r), ^rest)
            | _ -> error("Should not access projRelMade")
            end
-      else addLabelExtBody(label, m, rest.projRelMade);
+      else addLabelExtBody(label, ^m, rest.projRelMade);
 }
 
 
@@ -1975,7 +1975,7 @@ aspect production addBasicExtBody
 top::ExtBody ::= m::Metaterm rest::ExtBody
 {
   rest.makeProjRel = top.makeProjRel;
-  top.projRelMade = addBasicExtBody(m, rest.projRelMade);
+  top.projRelMade = addBasicExtBody(^m, rest.projRelMade);
 }
 
 
@@ -2029,7 +2029,7 @@ top::TopCommand ::= names::[QName] newThms::ExtThms newAlsos::ExtThms
 aspect production projectionConstraint
 top::TopCommand ::= name::QName binds::Bindings body::ExtBody
 {
-  top.matchesNames = \ l::[QName] -> head(l) == fullName;
+  top.matchesNames = \ l::[QName] -> head(l) == ^fullName;
 
   top.isNotProof = false;
 }
@@ -2038,7 +2038,7 @@ top::TopCommand ::= name::QName binds::Bindings body::ExtBody
 aspect production proveConstraint
 top::TopCommand ::= name::QName
 {
-  top.matchesNames = \ l::[QName] -> head(l) == name;
+  top.matchesNames = \ l::[QName] -> head(l) == ^name;
 
   top.isNotProof = false;
 }
@@ -2119,7 +2119,7 @@ top::TopCommand ::= oldRels::[QName] newRels::[(QName, [String])]
 aspect production theoremDeclaration
 top::TopCommand ::= name::QName params::[String] body::Metaterm
 {
-  top.matchesNames = \ l::[QName] -> head(l) == fullName;
+  top.matchesNames = \ l::[QName] -> head(l) == ^fullName;
 
   top.isNotProof = false;
 }

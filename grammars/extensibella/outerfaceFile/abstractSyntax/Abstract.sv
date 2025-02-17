@@ -32,12 +32,12 @@ function combineAllThms
   local firsts::[ThmElement] = map(head, modThms);
   local first::ThmElement =
       getFirst(tail(firsts), head(firsts));
-  local cleaned::[[ThmElement]] = cleanModThms(first, modThms);
+  local cleaned::[[ThmElement]] = cleanModThms(^first, modThms);
   return
      case modThms of
      | [] -> []
      | [l] -> l
-     | _ -> first::combineAllThms(cleaned)
+     | _ -> ^first::combineAllThms(cleaned)
      end;
 }
 
@@ -56,21 +56,21 @@ ThmElement ::= modThms::[ThmElement] thusFar::ThmElement
   -}
   return
       case modThms of
-      | [] -> thusFar
+      | [] -> ^thusFar
       | x::rest when x.is_nonextensible ->
         getFirst(rest, x)
       | x::rest when thusFar.is_nonextensible ->
-        getFirst(rest, thusFar)
+        getFirst(rest, ^thusFar)
       --anything at this point is extensible, so earlier tag
       | t::r when lessTags(t.tag, thusFar.tag) ->
         --thusFar isn't minimum, so start with t
         getFirst(r, t)
       --same tags, so unify the two before continuing
       | t::r when equalTags(t.tag, thusFar.tag) ->
-        getFirst(r, unionThmElements(t, thusFar))
+        getFirst(r, unionThmElements(t, ^thusFar))
       | t::r ->
         --thusFar is still minimum seen, so continue with it
-        getFirst(r, thusFar)
+        getFirst(r, ^thusFar)
       end;
 }
 
@@ -178,7 +178,7 @@ ThmElement ::= a::ThmElement b::ThmElement
            end
          | projectionConstraintTheorem(_, _, _, _),
            projectionConstraintTheorem(_, _, _, _) ->
-           a --can't extend with new, but is still labeled extensible
+           ^a --can't extend with new, but is still labeled extensible
          | _, _ ->
            error("unionThmElements with mismatch or nonextensible")
          end;
@@ -192,10 +192,10 @@ function cleanModThms
   local removeFirst::Boolean =
       case head(head(modThms)), remove of
       | splitElement(aname, alst), splitElement(bname, blst) ->
-        aname == bname && alst == blst
+        ^aname == ^bname && alst == blst
       | nonextensibleTheorem(aname, aparams, astmt),
         nonextensibleTheorem(bname, bparams, bstmt) ->
-        aname == bname
+        ^aname == ^bname
       | extensibleMutualTheoremGroup(athms, _, atag),
         extensibleMutualTheoremGroup(bthms, _, btag) -> atag == btag
       | projectionConstraintTheorem(aname, abinds, abody, atag),
@@ -213,11 +213,11 @@ function cleanModThms
   return case modThms of
          | [] -> []
          | [_]::tl when removeFirst ->
-           cleanModThms(remove, tl)
+           cleanModThms(^remove, tl)
          | (_::rest)::tl when removeFirst ->
-           rest::cleanModThms(remove, tl)
+           rest::cleanModThms(^remove, tl)
          | hd::tl -> --!removeFirst
-           hd::cleanModThms(remove, tl)
+           hd::cleanModThms(^remove, tl)
          end;
 }
 
@@ -312,7 +312,7 @@ aspect production theoremDeclaration
 top::TopCommand ::= name::QName params::[String] body::Metaterm
 {
   top.defElements = [];
-  top.thmElements = [nonextensibleTheorem(name, params, body)];
+  top.thmElements = [nonextensibleTheorem(^name, params, ^body)];
 }
 
 
@@ -346,7 +346,7 @@ aspect production splitTheorem
 top::TopCommand ::= theoremName::QName newTheoremNames::[QName]
 {
   top.defElements = [];
-  top.thmElements = [splitElement(theoremName, newTheoremNames)];
+  top.thmElements = [splitElement(^theoremName, newTheoremNames)];
 }
 
 
@@ -361,7 +361,7 @@ top::TopCommand ::= tys::TypeList
 aspect production kindDeclaration
 top::TopCommand ::= names::[QName] k::Kind
 {
-  top.defElements = [kindElement(names, k)];
+  top.defElements = [kindElement(names, ^k)];
   top.thmElements = [];
 }
 
@@ -369,7 +369,7 @@ top::TopCommand ::= names::[QName] k::Kind
 aspect production typeDeclaration
 top::TopCommand ::= names::[QName] ty::Type
 {
-  top.defElements = [typeElement(names, ty)];
+  top.defElements = [typeElement(names, ^ty)];
   top.thmElements = [];
 }
 
@@ -405,7 +405,7 @@ aspect production projectionConstraint
 top::TopCommand ::= name::QName binds::Bindings body::ExtBody
 {
   top.defElements = [];
-  top.thmElements = [projectionConstraintTheorem(name, binds, body,
+  top.thmElements = [projectionConstraintTheorem(^name, ^binds, ^body,
                         top.downTag)];
 }
 
@@ -496,7 +496,7 @@ aspect production addExtThms
 top::ExtThms ::= name::QName bindings::Bindings body::ExtBody
                  ons::InductionOns rest::ExtThms
 {
-  top.thmInfo = (name, bindings, body, ons)::rest.thmInfo;
+  top.thmInfo = (^name, ^bindings, ^body, ^ons)::rest.thmInfo;
 }
 
 
@@ -527,12 +527,12 @@ top::Defs ::= d::Def rest::Defs
 aspect production factDef
 top::Def ::= q::QName args::TermList
 {
-  top.defClauses = [(q, args, nothing())];
+  top.defClauses = [(^q, ^args, nothing())];
 }
 
 
 aspect production ruleDef
 top::Def ::= q::QName args::TermList body::Metaterm
 {
-  top.defClauses = [(q, args, just(body))];
+  top.defClauses = [(^q, ^args, just(^body))];
 }

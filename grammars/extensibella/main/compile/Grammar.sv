@@ -42,7 +42,7 @@ top::CmdArgs ::= rest::CmdArgs
 
   top.displayHelp = rest.displayHelp;
 
-  forwards to rest;
+  forwards to @rest;
 }
 
 

@@ -23,8 +23,8 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
       rel.abella_pp ++ " " ++ args.abella_pp ++ r.abella_pp;
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify::TypeUnify =
       if rel.relFound
@@ -37,7 +37,7 @@ top::Metaterm ::= rel::QName args::TermList r::Restriction
   unify.downSubst = args.upSubst;
   top.upSubst = unify.upSubst;
 
-  top.subst = relationMetaterm(rel, args.subst, r);
+  top.subst = relationMetaterm(^rel, args.subst, ^r);
 }
 
 abstract production trueMetaterm
@@ -47,12 +47,12 @@ top::Metaterm ::=
   top.abella_pp = "true";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   top.upSubst = top.downSubst;
 
-  top.subst = top;
+  top.subst = ^top;
 }
 
 abstract production falseMetaterm
@@ -62,12 +62,12 @@ top::Metaterm ::=
   top.abella_pp = "false";
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   top.upSubst = top.downSubst;
 
-  top.subst = top;
+  top.subst = ^top;
 }
 
 abstract production eqMetaterm
@@ -77,8 +77,8 @@ top::Metaterm ::= t1::Term t2::Term
   top.abella_pp = t1.abella_pp ++ " = " ++ t2.abella_pp;
   top.isAtomic = true;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   local unify::TypeUnify = typeUnify(t1.type, t2.type);
   t1.downSubst = top.downSubst;
@@ -97,8 +97,8 @@ top::Metaterm ::= t1::Metaterm t2::Metaterm
   top.abella_pp = "(" ++ t1.abella_pp ++ ") -> " ++ t2.abella_pp;
   top.isAtomic = false;
 
-  top.splitImplies = t1::t2.splitImplies;
-  top.splitConjunctions = [top];
+  top.splitImplies = ^t1::t2.splitImplies;
+  top.splitConjunctions = [^top];
 
   t1.downSubst = top.downSubst;
   t2.downSubst = t1.upSubst;
@@ -117,8 +117,8 @@ top::Metaterm ::= t1::Metaterm t2::Metaterm
       "(" ++ t1.abella_pp ++ ") \\/ (" ++ t2.abella_pp ++ ")";
   top.isAtomic = false;
 
-  top.splitImplies = [top];
-  top.splitConjunctions = [top];
+  top.splitImplies = [^top];
+  top.splitConjunctions = [^top];
 
   t1.downSubst = top.downSubst;
   t2.downSubst = t1.upSubst;
@@ -137,7 +137,7 @@ top::Metaterm ::= t1::Metaterm t2::Metaterm
       "(" ++ t1.abella_pp ++ ") /\\ (" ++ t2.abella_pp ++ ")";
   top.isAtomic = false;
 
-  top.splitImplies = [top];
+  top.splitImplies = [^top];
   --split both because associative
   top.splitConjunctions = t1.splitConjunctions ++ t2.splitConjunctions;
 
@@ -159,7 +159,7 @@ top::Metaterm ::= b::Binder nameBindings::Bindings body::Metaterm
   top.isAtomic = false;
 
   top.splitImplies = body.splitImplies;
-  top.splitConjunctions = [top];
+  top.splitConjunctions = [^top];
 
   --Want ALL names which occur, even if only in bindings
   top.usedNames := nameBindings.usedNames ++ body.usedNames;
@@ -170,7 +170,7 @@ top::Metaterm ::= b::Binder nameBindings::Bindings body::Metaterm
   local varTys::[(String, Either<Type String>)] =
       map(\ p::(String, MaybeType) ->
             (p.1, case p.2 of
-                  | justType(t) -> left(t)
+                  | justType(t) -> left(^t)
                   | nothingType() ->
                     right("__Bound" ++ toString(genInt()))
                   end),
@@ -192,7 +192,7 @@ top::Metaterm ::= b::Binder nameBindings::Bindings body::Metaterm
                           end,
                         varTys);
 
-  top.subst = bindingMetaterm(b, nameBindings, body.subst);
+  top.subst = bindingMetaterm(^b, ^nameBindings, body.subst);
 }
 
 
@@ -218,7 +218,7 @@ top::Bindings ::= name::String mty::MaybeType
       then "(" ++ name ++ " : " ++ mty.abella_pp ++ ")"
       else name;
 
-  top.toList = [(name, mty)];
+  top.toList = [(name, ^mty)];
   top.len = 1;
 
   top.usedNames := [name];
@@ -237,7 +237,7 @@ top::Bindings ::= name::String mty::MaybeType rest::Bindings
         then "(" ++ name ++ " : " ++ mty.abella_pp ++ ")"
         else name ) ++ " " ++ rest.abella_pp;
 
-  top.toList = (name, mty)::rest.toList;
+  top.toList = (name, ^mty)::rest.toList;
   top.len = 1 + rest.len;
 
   top.usedNames := name::rest.usedNames;
@@ -362,33 +362,33 @@ top::Term ::= f::Term args::TermList
 
   args.unifyWith =
       case top.unifyWith of
-      | applicationTerm(_, a) -> a
+      | applicationTerm(_, a) -> ^a
       | _ -> error("Should not access")
       end;
   top.unifySuccess =
       case top.unifyWith of
       | applicationTerm(_, _) -> true
-      | nameTerm(q, _) when !isConstantName(q) -> true
+      | nameTerm(q, _) when !isConstantName(^q) -> true
       | _ -> false
       end;
   top.unifyEqs =
       case top.unifyWith of
-      | applicationTerm(f2, _) -> (f, f2)::args.unifyEqs
+      | applicationTerm(f2, _) -> (^f, ^f2)::args.unifyEqs
       | _ -> [] --shouldn't really access
       end;
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> [] --shouldn't really access
       end;
 
-  top.type = appResult;
+  top.type = ^appResult;
   local appResult::Type =
       varType("__AppResult" ++ toString(genInt()));
   --(arg ty 1) -> (arg ty 2) -> ... -> (arg ty n) -> appResult
   local argArrowType::Type =
-      foldr(arrowType, appResult, args.types.toList);
-  local unify::TypeUnify = typeUnify(f.type, argArrowType);
+      foldr(arrowType, ^appResult, args.types.toList);
+  local unify::TypeUnify = typeUnify(f.type, @argArrowType);
   f.downSubst = top.downSubst;
   args.downSubst = f.upSubst;
   unify.downSubst = args.upSubst;
@@ -428,10 +428,10 @@ top::Term ::= name::QName mty::MaybeType
   top.unknownKReplaced =
       case name of
       | unknownKQName(_) -> top.replaceUnknownK
-      | _ -> top
+      | _ -> ^top
       end;
 
-  top.headConstructor = name;
+  top.headConstructor = ^name;
 
   top.isConstant =
       if contains(name.shortName, top.boundNames)
@@ -439,23 +439,23 @@ top::Term ::= name::QName mty::MaybeType
       else name.constrFound;
 
   top.subst =
-      if name == toQName(top.substName)
+      if ^name == toQName(top.substName)
       then top.substTerm
-      else top;
+      else ^top;
 
   top.unifySuccess =
-      if isConstantName(name)
+      if isConstantName(^name)
       then case top.unifyWith of
-           | nameTerm(q, _) when isConstantName(q) -> q == name
+           | nameTerm(q, _) when isConstantName(^q) -> ^q == ^name
            | nameTerm(x, _) -> true
            | _ -> false
            end
       else true;
   top.unifyEqs = []; --nothing more to unify here
   top.unifySubst =
-      if isConstantName(name)
+      if isConstantName(^name)
       then case top.unifyWith of
-           | nameTerm(x, _) -> [(x.shortName, top)]
+           | nameTerm(x, _) -> [(x.shortName, ^top)]
            | _ -> []
            end
       else [(name.shortName, top.unifyWith)];
@@ -509,20 +509,20 @@ top::Term ::= t1::Term t2::Term
       case top.unifyWith of
       | consTerm(_, _) -> true
       | listTerm(c) -> c.len > 0
-      | nameTerm(q, _) when !isConstantName(q) -> true
+      | nameTerm(q, _) when !isConstantName(^q) -> true
       | _ -> false
       end;
   top.unifyEqs =
       case top.unifyWith of
-      | consTerm(a, b) -> [(t1, a), (t2, b)]
+      | consTerm(a, b) -> [(^t1, ^a), (^t2, ^b)]
       | listTerm(c) ->
-        [(t1, head(c.toList)),
-         (t2, foldr(consTerm, nilTerm(), tail(c.toList)))]
+        [(^t1, head(c.toList)),
+         (^t2, foldr(consTerm, nilTerm(), tail(c.toList)))]
       | _ -> []
       end;
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -547,7 +547,7 @@ top::Term ::=
 
   top.headConstructor = error("nilTerm.headConstructor not valid");
 
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 
@@ -555,13 +555,13 @@ top::Term ::=
       case top.unifyWith of
       | nilTerm() -> true
       | listTerm(c) -> c.len == 0
-      | nameTerm(q, _) when !isConstantName(q) -> true
+      | nameTerm(q, _) when !isConstantName(^q) -> true
       | _ -> false
       end;
   top.unifyEqs = [];
   top.unifySubst =
       case top.unifyWith of
-      | nameTerm(q, _) -> [(q.shortName, top)]
+      | nameTerm(q, _) -> [(q.shortName, ^top)]
       | _ -> []
       end;
 
@@ -588,7 +588,7 @@ top::Term ::= mty::MaybeType
   top.headConstructor =
       error("underscoreTerm.headConstructor not valid");
 
-  top.subst = top;
+  top.subst = ^top;
 
   --shouldn't access isConstant on input
   top.isConstant = false;
@@ -599,7 +599,7 @@ top::Term ::= mty::MaybeType
 
   top.type =
       case mty of
-      | justType(t) -> t
+      | justType(t) -> ^t
       | nothingType() ->
         varType("__Underscore" ++ toString(genInt()))
       end;
@@ -637,7 +637,7 @@ top::TermList ::= t::Term
   top.pps = [if t.isAtomic then t.pp else parens(t.pp)];
   top.abella_pp = "(" ++ t.abella_pp ++ ")";
 
-  top.toList = [t];
+  top.toList = [^t];
   top.len = 1;
 
   top.isStructuredList = [t.isStructured];
@@ -654,8 +654,8 @@ top::TermList ::= t::Term
       end;
   top.unifyEqs =
       case top.unifyWith of
-      | singleTermList(t2) -> [(t, t2)]
-      | consTermList(t2, _) -> [(t, t2)]
+      | singleTermList(t2) -> [(^t, ^t2)]
+      | consTermList(t2, _) -> [(^t, ^t2)]
       | _ -> []
       end;
 
@@ -670,7 +670,7 @@ top::TermList ::= t::Term rest::TermList
   top.pps = (if t.isAtomic then t.pp else parens(t.pp))::rest.pps;
   top.abella_pp = "(" ++ t.abella_pp ++ ") " ++ rest.abella_pp;
 
-  top.toList = t::rest.toList;
+  top.toList = ^t::rest.toList;
   top.len = 1 + rest.len;
 
   top.isStructuredList = t.isStructured::rest.isStructuredList;
@@ -681,7 +681,7 @@ top::TermList ::= t::Term rest::TermList
 
   rest.unifyWith =
       case top.unifyWith of
-      | consTermList(_, r) -> r
+      | consTermList(_, r) -> ^r
       | _ -> emptyTermList() --valid for single, no better for empty
       end;
   top.unifySuccess =
@@ -692,8 +692,8 @@ top::TermList ::= t::Term rest::TermList
       end;
   top.unifyEqs =
       case top.unifyWith of
-      | consTermList(t2, _) -> (t, t2)::rest.unifyEqs
-      | singleTermList(t2) -> (t, t2)::rest.unifyEqs
+      | consTermList(t2, _) -> (^t, ^t2)::rest.unifyEqs
+      | singleTermList(t2) -> (^t, ^t2)::rest.unifyEqs
       | emptyTermList() -> []
       end;
 
@@ -714,7 +714,7 @@ top::TermList ::=
 
   top.isStructuredList = [];
 
-  top.subst = top;
+  top.subst = ^top;
 
   top.isConstant = true;
 

@@ -20,9 +20,9 @@ IOVal<Integer> ::= parsers::AllParsers ioin::IOToken
   local expectedMods::[QName] = --reverse to put host first
       reverse(interface.mods) ++
       --add because interface file doesn't include the module itself
-      [composeModule];
+      [^composeModule];
   local buildsOns::[(QName, [QName])] =
-      (composeModule, interface.mods)::interface.buildsOns;
+      (^composeModule, interface.mods)::interface.buildsOns;
 
   --definition file
   local composedDefFileLoc::IOVal<Maybe<String>> =

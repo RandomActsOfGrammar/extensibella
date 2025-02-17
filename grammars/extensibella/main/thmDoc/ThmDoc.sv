@@ -294,10 +294,10 @@ propagate formatThm, formatDef, formatDecl on TopCommand;
 aspect production theoremDeclaration
 top::TopCommand ::= name::QName params::[String] body::Metaterm
 {
-  top.thmStrings = [top.formatThm(name, params, body)];
+  top.thmStrings = [top.formatThm(^name, params, ^body)];
   top.defStrings = [];
 
-  top.newThms = [(fullName, body)];
+  top.newThms = [(^fullName, ^body)];
 }
 
 
@@ -305,7 +305,7 @@ aspect production definitionDeclaration
 top::TopCommand ::= preds::[(QName, Type)] defs::Defs
 {
   top.thmStrings = [];
-  top.defStrings = [top.formatDef(preds, defs, true)];
+  top.defStrings = [top.formatDef(preds, ^defs, true)];
 
   top.newThms = [];
 }
@@ -315,7 +315,7 @@ aspect production codefinitionDeclaration
 top::TopCommand ::= preds::[(QName, Type)] defs::Defs
 {
   top.thmStrings = [];
-  top.defStrings = [top.formatDef(preds, defs, false)];
+  top.defStrings = [top.formatDef(preds, ^defs, false)];
 
   top.newThms = [];
 }
@@ -339,7 +339,7 @@ top::TopCommand ::= theoremName::QName newTheoremNames::[QName]
   --   to read the interface and outerface files
   local thms::[(QName, Metaterm)] =
       case lookup(if theoremName.isQualified
-                  then theoremName
+                  then ^theoremName
                   else addQNameBase(top.currentModule,
                                     theoremName.shortName),
               top.knownThms) of
@@ -374,7 +374,7 @@ aspect production kindDeclaration
 top::TopCommand ::= names::[QName] k::Kind
 {
   top.thmStrings = [];
-  top.defStrings = [top.formatDecl(names, left(k))];
+  top.defStrings = [top.formatDecl(names, left(^k))];
 
   top.newThms = [];
 }
@@ -384,7 +384,7 @@ aspect production typeDeclaration
 top::TopCommand ::= names::[QName] ty::Type
 {
   top.thmStrings = [];
-  top.defStrings = [top.formatDecl(names, right(ty))];
+  top.defStrings = [top.formatDecl(names, right(^ty))];
 
   top.newThms = [];
 }
@@ -424,12 +424,12 @@ aspect production projectionConstraint
 top::TopCommand ::= name::QName binds::Bindings body::ExtBody
 {
   top.thmStrings =
-      [top.formatThm(name, [], bindingMetaterm(forallBinder(),
-                                               binds, body.thm))];
+      [top.formatThm(^name, [], bindingMetaterm(forallBinder(),
+                                                ^binds, body.thm))];
   top.defStrings = [];
 
   top.newThms =
-      [(name, bindingMetaterm(forallBinder(), binds, body.thm))];
+      [(^name, bindingMetaterm(forallBinder(), ^binds, body.thm))];
 }
 
 
@@ -524,10 +524,10 @@ top::ExtThms ::= name::QName bindings::Bindings body::ExtBody
                  ons::InductionOns rest::ExtThms
 {
   top.thmStrings =
-      top.formatThm(name, [], bindingMetaterm(forallBinder(),
-                                              bindings, body.thm)
+      top.formatThm(^name, [], bindingMetaterm(forallBinder(),
+                                               ^bindings, body.thm)
                    )::rest.thmStrings;
 
-  top.newThms = (fullName, bindingMetaterm(forallBinder(), bindings,
+  top.newThms = (^fullName, bindingMetaterm(forallBinder(), ^bindings,
                                            body.thm))::rest.newThms;
 }

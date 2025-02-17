@@ -19,8 +19,8 @@ abstract production addModuleList
 top::ImportedModuleList ::= module::QName buildsOn::BuildsOnList
                             rest::ImportedModuleList
 {
-  top.mods = module::rest.mods;
-  top.buildsOns = (module, buildsOn.mods)::rest.buildsOns;
+  top.mods = ^module::rest.mods;
+  top.buildsOns = (^module, buildsOn.mods)::rest.buildsOns;
 }
 
 
@@ -37,5 +37,5 @@ top::BuildsOnList ::=
 abstract production addBuildsOnList
 top::BuildsOnList ::= module::QName rest::BuildsOnList
 {
-  top.mods = module::rest.mods;
+  top.mods = ^module::rest.mods;
 }
